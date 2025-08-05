@@ -90,29 +90,40 @@
     </div>
     <script>
         document.getElementById('perfilForm').onsubmit = function(e) {
-            e.preventDefault();
-            alert('Perfil guardado correctamente.');
-            // Aquí puedes agregar la lógica para guardar los datos
-        };
-        document.getElementById('perfilForm').onsubmit = function(e) {
-        e.preventDefault();
-        // Recolectar datos del formulario
-        const formData = new FormData(this);
-        const datos = {};
-        formData.forEach((value, key) => {
-            if (key.endsWith('[]')) {
-                const cleanKey = key.replace('[]', '');
-                if (!datos[cleanKey]) datos[cleanKey] = [];
-                datos[cleanKey].push(value);
-            } else {
-                datos[key] = value;
-            }
-        });
-        // Guardar en localStorage
+    e.preventDefault();
+    // Recolectar datos del formulario
+    const formData = new FormData(this);
+    const datos = {};
+    formData.forEach((value, key) => {
+        if (key.endsWith('[]')) {
+            const cleanKey = key.replace('[]', '');
+            if (!datos[cleanKey]) datos[cleanKey] = [];
+            datos[cleanKey].push(value);
+        } else {
+            datos[key] = value;
+        }
+    });
+
+    // Enviar los datos al backend
+    fetch('http://localhost:5500/api/alumnos/Register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.text())
+    .then(data => {
+        alert('Perfil guardado correctamente en el backend.');
+        // Guardar también en localStorage si lo deseas
         localStorage.setItem('usuario', JSON.stringify(datos));
         // Redirigir a la página de usuario
         window.location.href = "usuario.html?exito=1";
-    };
+    })
+    .catch(err => {
+        alert('Error al guardar el perfil: ' + err);
+    });
+};
     </script>
 </body>
 </html>

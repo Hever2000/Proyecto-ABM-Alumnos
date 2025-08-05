@@ -18,7 +18,7 @@ const loginTab = document.getElementById('loginTab');
             loginForm.classList.remove('active');
         };
 
-        // Aquí puedes agregar la lógica para manejar el registro y login con JS o conectarlo a tu backend
+        // Aca podemos agregar la lógica para manejar el registro y login con JS o conectarlo a tu backend
         loginForm.onsubmit = function(e) {
             e.preventDefault();
             alert('Inicio de sesión simulado');
@@ -26,6 +26,20 @@ const loginTab = document.getElementById('loginTab');
 
         registerForm.onsubmit = function(e) {
             e.preventDefault();
-            // Aquí puedes agregar la lógica para guardar el registro
             window.location.href = "perfil.html"; // Redirige a la página de perfil
         };
+
+        fetch('http://localhost:8080/api/alumnos/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ id: "1", nombre: "Santiago" })
+})
+.then(res => res.text())
+.then(data => console.log("POST:", data));
+
+// Obtener el alumno con ID 1
+fetch('http://localhost:8080/api/alumnos/1')
+  .then(res => res.text())
+  .then(data => console.log("GET:", data));
