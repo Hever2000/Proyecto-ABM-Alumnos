@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Compañeros</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .menu {
+            background: #222;
+            padding: 0;
+            margin: 0 0 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 32px;
+            display: block;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .menu a:hover, .menu a.active {
+            background: #007bff;
+        }
+        .companieros-container {
+            max-width: 900px;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .companiero-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 20px 28px;
+            width: 270px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .companiero-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .companiero-card p {
+            margin: 4px 0;
+            font-size: 0.97em;
+        }
+        .companiero-card ul {
+            margin: 4px 0 0 18px;
+            padding: 0;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html">Inicio</a>
+        <a href="usuario.html">Perfil</a>
+        <a href="companieros.html" class="active">Compañeros</a>
+    </nav>
+    <div class="companieros-container" id="companierosList">
+        <!-- Aquí se mostrarán los compañeros -->
+    </div>
+    <script>
+        // Simulación de compañeros (incluye al usuario actual)
+        // Puedes reemplazar este array por una consulta a una API o almacenamiento real
+        let companieros = [
+            {
+                nombre: "Santiago CORONEL LANCELLOTTI",
+                correoUni: "santiago.coronellancellotti@usal.edu.ar",
+                carrera: "Ingeniería en Informática",
+                materiasCursa: ["Análisis Matemático I", "Programación I", "Física I"],
+                materiasAprobadas: ["Introducción a la Programación"],
+                dni: "47031873"
+            }
+        ];
+
+        // Agrega el usuario actual si existe en localStorage y no está repetido
+        const usuarioActual = JSON.parse(localStorage.getItem('usuario') || '{}');
+        if (usuarioActual.nombre && !companieros.some(c => c.dni === usuarioActual.dni)) {
+            companieros.push(usuarioActual);
+        }
+
+        // Renderizar los compañeros
+        const contenedor = document.getElementById('companierosList');
+        if (companieros.length === 0) {
+            contenedor.innerHTML = "<p>No hay compañeros registrados.</p>";
+        } else {
+            companieros.forEach(c => {
+                contenedor.innerHTML += `
+                <div class="companiero-card">
+                    <h3>${c.nombre || '-'}</h3>
+                    <p><strong>Correo:</strong> ${c.correoUni || '-'}</p>
+                    <p><strong>Carrera:</strong> ${c.carrera || '-'}</p>
+                    <p><strong>Materias que cursa:</strong>
+                        <ul>${(c.materiasCursa||[]).map(m=>`<li>${m}</li>`).join('')}</ul>
+                    </p>
+                    <p><strong>Materias aprobadas:</strong>
+                        <ul>${(c.materiasAprobadas||[]).map(m=>`<li>${m}</li>`).join('')}</ul>
+                    </p>
+                </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

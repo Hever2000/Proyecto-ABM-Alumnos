@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .menu {
+            background: #222;
+            padding: 0;
+            margin: 0 0 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 32px;
+            display: block;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .menu a:hover, .menu a.active {
+            background: #007bff;
+        }
+        .exito {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .perfil-box {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 40px auto;
+        }
+        .perfil-box h2 {
+            text-align: center;
+        }
+        .perfil-datos {
+            margin-top: 20px;
+        }
+        .perfil-datos strong {
+            display: inline-block;
+            width: 180px;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html">Inicio</a>
+        <a href="usuario.html" class="active">Perfil</a>
+        <a href="companieros.html">Compañeros</a>
+    </nav>
+    <div class="perfil-box">
+        <div id="notificacion"></div>
+        <h2>Perfil de Usuario</h2>
+        <div class="perfil-datos" id="datosUsuario"></div>
+    </div>
+    <script>
+        // Mostrar notificación si viene de registro exitoso
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('exito')) {
+            document.getElementById('notificacion').innerHTML = '<div class="exito">¡Usuario creado con éxito!</div>';
+        }
+        // Cargar datos del usuario
+        const datos = JSON.parse(localStorage.getItem('usuario') || '{}');
+        let html = '';
+        if (Object.keys(datos).length) {
+            html += `<p><strong>Nombre completo:</strong> ${datos.nombre || ''}</p>`;
+            html += `<p><strong>Fecha de nacimiento:</strong> ${datos.fechaNacimiento || ''}</p>`;
+            html += `<p><strong>DNI:</strong> ${datos.dni || ''}</p>`;
+            html += `<p><strong>Correo de la universidad:</strong> ${datos.correoUni || ''}</p>`;
+            html += `<p><strong>Datos de contacto:</strong> ${datos.contacto || '-'}</p>`;
+            html += `<p><strong>Carrera:</strong> ${datos.carrera || ''}</p>`;
+            html += `<p><strong>Materias que cursa:</strong> <ul>${(datos.materiasCursa||[]).map(m=>`<li>${m}</li>`).join('')}</ul></p>`;
+            html += `<p><strong>Materias aprobadas:</strong> <ul>${(datos.materiasAprobadas||[]).map(m=>`<li>${m}</li>`).join('')}</ul></p>`;
+        } else {
+            html = '<p>No hay datos de usuario.</p>';
+        }
+        document.getElementById('datosUsuario').innerHTML = html;
+    </script>
+</body>
+</html>
