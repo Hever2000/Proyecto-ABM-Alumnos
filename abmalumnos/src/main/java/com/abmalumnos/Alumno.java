@@ -1,15 +1,24 @@
 package com.abmalumnos;
 
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
 public class Alumno {
     private String nombre;
     private String fechaNacimiento;
+    
+    @Id
     private String dni;
+
     private String correoUni;
     private String contacto;
     private String carrera;
+
+    @ElementCollection
     private List<String> materiasCursa;
+
+    @ElementCollection
     private List<String> materiasAprobadas;
 
     // Getters y setters

@@ -1,27 +1,26 @@
 package com.abmalumnos.controller;
 
 import com.abmalumnos.Alumno;
+import com.abmalumnos.AlumnoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/alumnos")
 @CrossOrigin(origins = "*")
 public class AlumnoController {
 
-    // Simulamos una base de datos en memoria
-    private Map<String, Alumno> alumnos = new HashMap<>();
-
-    @GetMapping("/{dni}")
-    public Alumno obtenerAlumno(@PathVariable String dni) {
-        return alumnos.get(dni);
-    }
+    @Autowired
+    private AlumnoRepository alumnoRepository;
 
     @PostMapping("/Register")
     public String agregarAlumno(@RequestBody Alumno alumno) {
-        alumnos.put(alumno.getDni(), alumno);
+        alumnoRepository.save(alumno);
         return "Alumno agregado: " + alumno.getNombre();
+    }
+
+    @GetMapping("/{dni}")
+    public Alumno obtenerAlumno(@PathVariable String dni) {
+        return alumnoRepository.findById(dni).orElse(null);
     }
 }
