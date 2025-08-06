@@ -13,10 +13,12 @@ public class Alumno {
 
     private String correoUni;
     private String contacto;
-    private String carrera;
 
     @ElementCollection
-    private List<String> materiasCursa;
+    private List<String> carreras;
+
+    @ElementCollection
+    private List<String> materiasEnCurso;
 
     @ElementCollection
     private List<String> materiasAprobadas;
@@ -37,11 +39,11 @@ public class Alumno {
     public String getContacto() { return contacto; }
     public void setContacto(String contacto) { this.contacto = contacto; }
 
-    public String getCarrera() { return carrera; }
-    public void setCarrera(String carrera) { this.carrera = carrera; }
+    public List<String> getCarreras() { return carreras; }
+    public void setCarrera(List<String> carreras) { this.carreras = carreras; }
 
-    public List<String> getMateriasCursa() { return materiasCursa; }
-    public void setMateriasCursa(List<String> materiasCursa) { this.materiasCursa = materiasCursa; }
+    public List<String> getMateriasCursa() { return materiasEnCurso; }
+    public void setMateriasCursa(List<String> materiasCursa) { this.materiasEnCurso = materiasCursa; }
 
     public List<String> getMateriasAprobadas() { return materiasAprobadas; }
     public void setMateriasAprobadas(List<String> materiasAprobadas) { this.materiasAprobadas = materiasAprobadas; }
