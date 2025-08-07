@@ -19,7 +19,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Carrera {
     @Id
-    private int codigoCarrera;
+    private Integer codigoCarrera;
     private String nombreCarrera;
 
     /*
@@ -36,7 +36,7 @@ public class Carrera {
 
     //#region Getters
 
-    public int getCodigoCarrera() { return codigoCarrera; }
+    public Integer getCodigoCarrera() { return codigoCarrera; }
 
     public String getNombreCarrera() { return nombreCarrera; }
 

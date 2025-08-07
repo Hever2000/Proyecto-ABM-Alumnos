@@ -1,7 +1,7 @@
 package com.abmalumnos.controller;
 
 import com.abmalumnos.Alumno;
-import com.abmalumnos.AlumnoRepository;
+import com.abmalumnos.repository.AlumnoRepository;
 
 import java.util.Iterator;
 import java.util.LinkedList;
