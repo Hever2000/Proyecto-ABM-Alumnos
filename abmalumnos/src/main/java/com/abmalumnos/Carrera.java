@@ -1,5 +1,12 @@
 package com.abmalumnos;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.abmalumnos.repository.CarreraRepository;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -22,6 +29,9 @@ public class Carrera {
     private Integer codigoCarrera;
     private String nombreCarrera;
 
+    @Autowired
+    private static CarreraRepository carreraRepository;
+
     /*
      * La clase tiene que ser inmutable, los datos se obtienen
      * de la DB, cuando se llama al constructor de la clase, y
@@ -39,6 +49,27 @@ public class Carrera {
     public Integer getCodigoCarrera() { return codigoCarrera; }
 
     public String getNombreCarrera() { return nombreCarrera; }
+
+    // Devuelve los nombres canoncios de las carreas pasadas por parametro
+    public static List<String> getNombreCarreras(String[] codCarrera) {
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (int i = 0; i < codCarrera.length; i++) {
+            Carrera tmp = carreraRepository.findById(Integer.parseInt(codCarrera[i]))
+                                            .orElse(null);
+
+            if (tmp != null) {
+                ret.add(tmp.getNombreCarrera());
+            } else {
+                new Exception(String.format(
+                    "Carrera invalida detectada\nCodigo de carrera invalida: %s\n",
+                    codCarrera[i]))
+                    .printStackTrace();;
+            }
+        }
+
+        return ret;
+    }
 
     //#endregion
 }

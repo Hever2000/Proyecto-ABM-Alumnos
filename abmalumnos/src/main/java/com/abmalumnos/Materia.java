@@ -1,5 +1,12 @@
 package com.abmalumnos;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.abmalumnos.repository.MateriaRepository;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -22,22 +29,35 @@ public class Materia {
     private Integer codigoMateria;
     private String nombreMateria;
 
-    /*
-     * La clase tiene que ser inmutable, los datos se obtienen
-     * de la DB, cuando se llama al constructor de la clase, y
-     * luego todo tiene que ser operaciones read-only (getters)
-     */
-
-     public Materia(){
-        // TODO: Conectar esto a la base de datos, o pasarle las cosas por parametro
-        this.codigoMateria = 010101;
-        this.nombreMateria = "Lorem Ipsum Quis custodiet ipsos custodes";
-     }
+    @Autowired
+    private static MateriaRepository materiaRepository;
 
      //#region Getters
 
      public Integer getCodigoMateria() { return codigoMateria; }
 
      public String getNombreMateria() { return nombreMateria; }
+
+    // Devuelve los nombres canoncios de las materias pasadas por parametro
+     public static List<String> getNombreMaterias(String[] codMateria) {
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (int i = 0; i < codMateria.length; i++) {
+            Materia tmp = materiaRepository.findById(Integer.parseInt(codMateria[i]))
+                                            .orElse(null);
+            
+            if (tmp != null) {
+                ret.add(tmp.getNombreMateria());
+            } else {
+                new Exception(String.format(
+                    "Materia invalida detectada\nCodigo de materia invalida: %s\n",
+                    codMateria[i]))
+                    .printStackTrace();;
+            }
+        }
+
+        return ret;
+    }
+
      //#endregion
 }
