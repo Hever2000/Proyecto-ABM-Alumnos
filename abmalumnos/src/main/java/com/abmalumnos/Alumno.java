@@ -1,6 +1,9 @@
 package com.abmalumnos;
 
 import jakarta.persistence.*;
+
+import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -9,19 +12,15 @@ public class Alumno {
     private Integer legajo;
     private String nombre;
     private String dni;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String direccion;
     private String contacto;
     private String correoUni;
+    private String carreras;
+    private String materiasAprobadas;
+    private String materiasEnCurso;
 
-    @ElementCollection
-    private List<String> carreras;
 
-    @ElementCollection
-    private List<String> materiasAprobadas;
-
-    @ElementCollection
-    private List<String> materiasEnCurso;
 
     //#region Getters y setters
 
@@ -34,8 +33,8 @@ public class Alumno {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
 
-    public String getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public Date getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(Date fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
 
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
@@ -46,14 +45,14 @@ public class Alumno {
     public String getCorreoUni() { return correoUni; }
     public void setCorreoUni(String correoUni) { this.correoUni = correoUni; }
 
-    public List<String> getCarreras() { return carreras; }
-    public void setCarrera(List<String> carreras) { this.carreras = carreras; }
+    public String getCarreras() { return carreras; }
+    public void setCarrera(String carreras) { this.carreras = carreras; }
 
-    public List<String> getMateriasAprobadas() { return materiasAprobadas; }
-    public void setMateriasAprobadas(List<String> materiasAprobadas) { this.materiasAprobadas = materiasAprobadas; }
+    public String getMateriasAprobadas() { return materiasAprobadas; }
+    public void setMateriasAprobadas(String materiasAprobadas) { this.materiasAprobadas = materiasAprobadas; }
 
-    public List<String> getMateriasCursa() { return materiasEnCurso; }
-    public void setMateriasCursa(List<String> materiasCursa) { this.materiasEnCurso = materiasCursa; }
+    public String getMateriasCursa() { return materiasEnCurso; }
+    public void setMateriasCursa(String materiasCursa) { this.materiasEnCurso = materiasCursa; }
 
     /*
      * Solo manda los datos publicos como nombre, correo, y carrera
