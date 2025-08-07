@@ -17,9 +17,9 @@ import jakarta.persistence.Id;
  */
 
 @Entity
-public class Materias {
+public class Materia {
     @Id
-    private int codigoMateria;
+    private Integer codigoMateria;
     private String nombreMateria;
 
     /*
@@ -28,7 +28,7 @@ public class Materias {
      * luego todo tiene que ser operaciones read-only (getters)
      */
 
-     public Materias(){
+     public Materia(){
         // TODO: Conectar esto a la base de datos, o pasarle las cosas por parametro
         this.codigoMateria = 010101;
         this.nombreMateria = "Lorem Ipsum Quis custodiet ipsos custodes";
@@ -36,7 +36,7 @@ public class Materias {
 
      //#region Getters
 
-     public int getCodigoMateria() { return codigoMateria; }
+     public Integer getCodigoMateria() { return codigoMateria; }
 
      public String getNombreMateria() { return nombreMateria; }
      //#endregion
