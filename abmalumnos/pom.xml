@@ -12,7 +12,7 @@
 	<artifactId>abmalumnos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>abmalumnos</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo para sistema A.B.M. Alumnos</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -34,7 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
