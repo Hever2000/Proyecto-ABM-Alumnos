@@ -3,7 +3,6 @@ package com.abmalumnos;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -19,8 +18,6 @@ public class Alumno {
     private String carreras;
     private String materiasAprobadas;
     private String materiasEnCurso;
-
-
 
     //#region Getters y setters
 
@@ -70,5 +67,21 @@ public class Alumno {
 
         return ret;
     }
+
+    // Devuelve los nombres canoncios de las carreas de las que es parte
+    public List<String> getNombreCarreras() {
+        return Carrera.getNombreCarreras(this.carreras.split(","));
+    }
+
+    // Devuelve los nombres canonicos de las materias que aprobo
+    public List<String> getNombreMateriasAprobadas() {
+        return Materia.getNombreMaterias(this.materiasAprobadas.split(","));
+    }
+
+    // Devuelve los nombres canonicos de las materias que cursa
+    public List<String> getNombreMateriasCursa() {
+        return Materia.getNombreMaterias(this.materiasEnCurso.split(","));
+    }
+
     //#endregion
 }
