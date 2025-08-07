@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 public class Alumno {
     @Id // Marca al legajo como llave primaria
-    private String legajo;
+    private Integer legajo;
     private String nombre;
     private String dni;
     private String fechaNacimiento;
@@ -25,8 +25,8 @@ public class Alumno {
 
     //#region Getters y setters
 
-    public String getLegajo() { return legajo; }
-    public void setLegajo(String legajo) { this.legajo = legajo; }
+    public Integer getLegajo() { return legajo; }
+    public void setLegajo(Integer legajo) { this.legajo = legajo; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -54,6 +54,22 @@ public class Alumno {
 
     public List<String> getMateriasCursa() { return materiasEnCurso; }
     public void setMateriasCursa(List<String> materiasCursa) { this.materiasEnCurso = materiasCursa; }
-    
+
+    /*
+     * Solo manda los datos publicos como nombre, correo, y carrera
+     * 
+     * Sepan que la profe de progra seguro los mata si hacen esto asi.
+     * Usen constructores y no tanto setter a menos que quieran que
+     * el dato sea mutable (no es nuestro caso)
+     */ 
+    public Alumno getPublicData() {
+        Alumno ret = new Alumno();
+
+        ret.nombre = this.nombre;
+        ret.correoUni = this.correoUni;
+        ret.carreras = this.carreras;
+
+        return ret;
+    }
     //#endregion
 }
