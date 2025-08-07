@@ -31,19 +31,7 @@ public class Carrera {
 
     @Autowired
     private static CarreraRepository carreraRepository;
-
-    /*
-     * La clase tiene que ser inmutable, los datos se obtienen
-     * de la DB, cuando se llama al constructor de la clase, y
-     * luego todo tiene que ser operaciones read-only (getters)
-     */
-
-    public Carrera(){
-        // TODO: Conectar esto a la base de datos, o pasarle las cosas por parametro
-        this.codigoCarrera = 101010;
-        this.nombreCarrera = "Lorem Ipsum Dorime Ameno Patricio Estrella";
-    }
-
+    
     //#region Getters
 
     public Integer getCodigoCarrera() { return codigoCarrera; }
