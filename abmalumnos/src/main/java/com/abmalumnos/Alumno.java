@@ -54,7 +54,8 @@ public class Alumno {
     public void setMateriasCursa(String materiasCursa) { this.materiasEnCurso = materiasCursa; }
 
     /*
-     * Solo manda los datos publicos como nombre, correo, y carrera
+     * Solo manda los datos publicos como nombre, correo, y los 
+     * nombres de las carreras que esta subscripto
      * 
      * Sepan que la profe de progra seguro los mata si hacen esto asi.
      * Usen constructores y no tanto setter a menos que quieran que
@@ -66,7 +67,32 @@ public class Alumno {
 
         ret.nombre = this.nombre;
         ret.correoUni = this.correoUni;
-        ret.carreras = this.carreras;
+        ret.carreras = String.join(",", this.getNombreCarreras());
+
+        return ret;
+    }
+
+    /*
+     * Manda todos los datos de un alumno, pero con los nombres
+     * canonicos de las materias y carreras que esta subscripto
+     * 
+     * Y al igual que antes, esto es java mal hecho. Deberiamos
+     * de ponerle un constructor a esta clase...
+     */
+    @JsonIgnore
+    public Alumno getPrivateData() {
+        Alumno ret = new Alumno();
+
+        ret.legajo = this.legajo;
+        ret.nombre = this.nombre;
+        ret.dni = this.dni;
+        ret.fechaNacimiento = this.fechaNacimiento;
+        ret.direccion = this.direccion;
+        ret.contacto = this.contacto;
+        ret.correoUni = this.correoUni;
+        ret.carreras = String.join(",", this.getNombreCarreras());
+        ret.materiasAprobadas = String.join(",", this.getNombreMateriasAprobadas());
+        ret.materiasEnCurso = String.join(",", this.getNombreMateriasCursa());
 
         return ret;
     }

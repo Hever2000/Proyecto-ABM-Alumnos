@@ -24,9 +24,16 @@ public class AlumnoController {
                                 alumno.getLegajo(), alumno.getNombre());
     }
 
+    // Manda todos los datos de la clase alumno, con los nombres
     @GetMapping("/{legajo}")
     public @ResponseBody Alumno obtenerAlumno(@PathVariable Integer legajo) {
-        return alumnoRepository.findById(legajo).orElse(null);
+        Alumno ret = alumnoRepository.findById(legajo).orElse(null);
+
+        if (ret != null) {
+            ret = ret.getPrivateData();
+        }
+
+        return ret;
     }
 
     // Solo manda los datos publicos como nombre, correo, y carrera
