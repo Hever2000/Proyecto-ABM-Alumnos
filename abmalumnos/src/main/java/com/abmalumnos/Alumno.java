@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Alumno {
     @Id // Marca al legajo como llave primaria
@@ -58,6 +60,7 @@ public class Alumno {
      * Usen constructores y no tanto setter a menos que quieran que
      * el dato sea mutable (no es nuestro caso)
      */ 
+    @JsonIgnore
     public Alumno getPublicData() {
         Alumno ret = new Alumno();
 
@@ -69,16 +72,19 @@ public class Alumno {
     }
 
     // Devuelve los nombres canoncios de las carreas de las que es parte
+    @JsonIgnore
     public List<String> getNombreCarreras() {
         return Carrera.getNombreCarreras(this.carreras.split(","));
     }
 
     // Devuelve los nombres canonicos de las materias que aprobo
+    @JsonIgnore
     public List<String> getNombreMateriasAprobadas() {
         return Materia.getNombreMaterias(this.materiasAprobadas.split(","));
     }
 
     // Devuelve los nombres canonicos de las materias que cursa
+    @JsonIgnore
     public List<String> getNombreMateriasCursa() {
         return Materia.getNombreMaterias(this.materiasEnCurso.split(","));
     }
