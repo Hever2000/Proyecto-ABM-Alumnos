@@ -1,6 +1,7 @@
 package com.abmalumnos.controller;
 
 import com.abmalumnos.dataStructures.Alumno;
+import com.abmalumnos.exceptions.AlumnoNotFoundException;
 import com.abmalumnos.repository.AlumnoRepository;
 
 import java.util.Iterator;
@@ -26,12 +27,12 @@ public class AlumnoController {
 
     // Manda todos los datos de la clase alumno, con los nombres
     @GetMapping("/{legajo}")
-    public @ResponseBody Alumno obtenerAlumno(@PathVariable Integer legajo) {
+    public @ResponseBody Alumno obtenerAlumno(@PathVariable("legajo") Integer legajo) {
         Alumno ret = alumnoRepository.findById(legajo).orElse(null);
 
-        if (ret != null) {
-            ret = ret.getPrivateData();
-        }
+        if (ret == null) throw new AlumnoNotFoundException(
+                String.format("Alumno con legajo %d no fue encontrado", legajo)
+                );
 
         return ret;
     }
