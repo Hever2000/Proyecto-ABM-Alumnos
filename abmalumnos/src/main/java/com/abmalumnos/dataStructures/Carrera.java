@@ -1,5 +1,6 @@
 package com.abmalumnos.dataStructures;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,31 @@ public class Carrera {
                     "Carrera invalida detectada\nCodigo de carrera invalida: %s\n",
                     codCarrera[i]))
                     .printStackTrace();;
+            }
+        }
+
+        return ret;
+    }
+
+    // Devuelve los codigos de las carreras pasadas por parametro
+    public static List<Integer> getCarreras(String[] nombreCarreras) {
+        LinkedList<Integer> ret = new LinkedList<>();
+        Iterator<Carrera> list = carreraRepository.findAll().iterator();
+
+        while (list.hasNext()) {
+            boolean found = false;
+
+            for (int i = 0; !found && i < nombreCarreras.length; i++) {
+                Carrera tmp = list.next();
+
+                if (tmp.nombreCarrera.equals(nombreCarreras[i])) {
+                    found = true;
+                    ret.add(tmp.codigoCarrera);
+                }
+            }
+
+            if (!found) {
+                // Log error here
             }
         }
 

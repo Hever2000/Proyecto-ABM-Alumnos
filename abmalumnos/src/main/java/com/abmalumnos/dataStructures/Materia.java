@@ -1,5 +1,6 @@
 package com.abmalumnos.dataStructures;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,31 @@ public class Materia {
                     "Materia invalida detectada\nCodigo de materia invalida: %s\n",
                     codMateria[i]))
                     .printStackTrace();;
+            }
+        }
+
+        return ret;
+    }
+
+    // Devuelve los codigos de las materias pasadas por parametro
+    public static List<Integer> getMaterias(String[] nombreMaterias) {
+        LinkedList<Integer> ret = new LinkedList<>();
+        Iterator<Materia> list = materiaRepository.findAll().iterator();
+
+        while (list.hasNext()) {
+            boolean found = false;
+
+            for (int i = 0; !found && i < nombreMaterias.length; i++) {
+                Materia tmp = list.next();
+
+                if (tmp.nombreMateria.equals(nombreMaterias[i])) {
+                    found = true;
+                    ret.add(tmp.codigoMateria);
+                }
+            }
+
+            if (!found) {
+                // Log error here
             }
         }
 

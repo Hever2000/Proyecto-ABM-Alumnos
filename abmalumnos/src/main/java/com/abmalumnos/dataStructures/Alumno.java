@@ -51,15 +51,48 @@ public class Alumno {
 
     @JsonIgnore
     public String getCarreras() { return carreras; }
-    public void setCarrera(String carreras) { this.carreras = carreras; }
+
+    // Devuelve los nombres canoncios de las carreas de las que es parte
+    public List<String> getNombreCarreras() {
+        return Carrera.getNombreCarreras(this.carreras.split(","));
+    }
+
+    public void setCarrera(String nombreCarreras) {
+        this.carreras = "";
+        for (Integer codCarrera : Carrera.getCarreras(nombreCarreras.split(","))) {
+            this.carreras += String.format("%d,", codCarrera);
+        }
+    }
 
     @JsonIgnore
     public String getMateriasAprobadas() { return materiasAprobadas; }
-    public void setMateriasAprobadas(String materiasAprobadas) { this.materiasAprobadas = materiasAprobadas; }
+
+    // Devuelve los nombres canonicos de las materias que aprobo
+    public List<String> getNombreMateriasAprobadas() {
+        return Materia.getNombreMaterias(this.materiasAprobadas.split(","));
+    }
+
+    public void setMateriasAprobadas(String materiasAprobadas) {
+        this.materiasAprobadas = "";
+        for (Integer codMateria : Materia.getMaterias(materiasAprobadas.split(","))) {
+            this.materiasAprobadas += String.format("%d,", codMateria);
+        }
+    }
 
     @JsonIgnore
     public String getMateriasCursa() { return materiasEnCurso; }
-    public void setMateriasCursa(String materiasCursa) { this.materiasEnCurso = materiasCursa; }
+
+    // Devuelve los nombres canonicos de las materias que cursa
+    public List<String> getNombreMateriasCursa() {
+        return Materia.getNombreMaterias(this.materiasEnCurso.split(","));
+    }
+
+    public void setMateriasCursa(String materiasCursa) { 
+        this.materiasEnCurso = "";
+        for (Integer codMateria : Materia.getMaterias(materiasCursa.split(","))) {
+            this.materiasEnCurso += String.format("%d,", codMateria);
+        }
+     }
 
     /*
      * Solo manda los datos publicos como nombre, correo, y los 
@@ -78,21 +111,6 @@ public class Alumno {
         ret.carreras = String.join(",", this.getNombreCarreras());
 
         return ret;
-    }
-
-    // Devuelve los nombres canoncios de las carreas de las que es parte
-    public List<String> getNombreCarreras() {
-        return Carrera.getNombreCarreras(this.carreras.split(","));
-    }
-
-    // Devuelve los nombres canonicos de las materias que aprobo
-    public List<String> getNombreMateriasAprobadas() {
-        return Materia.getNombreMaterias(this.materiasAprobadas.split(","));
-    }
-
-    // Devuelve los nombres canonicos de las materias que cursa
-    public List<String> getNombreMateriasCursa() {
-        return Materia.getNombreMaterias(this.materiasEnCurso.split(","));
     }
 
     //#endregion
