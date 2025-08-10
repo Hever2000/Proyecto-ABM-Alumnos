@@ -1,11 +1,11 @@
-package com.abmalumnos;
+package com.abmalumnos.dataStructures;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.abmalumnos.repository.CarreraRepository;
+import com.abmalumnos.repository.MateriaRepository;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,38 +20,38 @@ import jakarta.persistence.Id;
  * a cuentas de alumnos. Mientras que usamos estas bases de
  * datos, estas estan por fuera del limite de nuestro sistema
  * y se asume que hay otro sistema que manipula y mantiene al
- * dia estas bases de datos
+ * dia estas otras bases de datos
  */
 
 @Entity
-public class Carrera {
+public class Materia {
     @Id
-    private Integer codigoCarrera;
-    private String nombreCarrera;
+    private Integer codigoMateria;
+    private String nombreMateria;
 
     @Autowired
-    private static CarreraRepository carreraRepository;
-    
-    //#region Getters
+    private static MateriaRepository materiaRepository;
 
-    public Integer getCodigoCarrera() { return codigoCarrera; }
+     //#region Getters
 
-    public String getNombreCarrera() { return nombreCarrera; }
+     public Integer getCodigoMateria() { return codigoMateria; }
 
-    // Devuelve los nombres canoncios de las carreas pasadas por parametro
-    public static List<String> getNombreCarreras(String[] codCarrera) {
+     public String getNombreMateria() { return nombreMateria; }
+
+    // Devuelve los nombres canoncios de las materias pasadas por parametro
+     public static List<String> getNombreMaterias(String[] codMateria) {
         LinkedList<String> ret = new LinkedList<>();
 
-        for (int i = 0; i < codCarrera.length; i++) {
-            Carrera tmp = carreraRepository.findById(Integer.parseInt(codCarrera[i]))
+        for (int i = 0; i < codMateria.length; i++) {
+            Materia tmp = materiaRepository.findById(Integer.parseInt(codMateria[i]))
                                             .orElse(null);
-
+            
             if (tmp != null) {
-                ret.add(tmp.getNombreCarrera());
+                ret.add(tmp.getNombreMateria());
             } else {
                 new Exception(String.format(
-                    "Carrera invalida detectada\nCodigo de carrera invalida: %s\n",
-                    codCarrera[i]))
+                    "Materia invalida detectada\nCodigo de materia invalida: %s\n",
+                    codMateria[i]))
                     .printStackTrace();;
             }
         }
@@ -59,5 +59,5 @@ public class Carrera {
         return ret;
     }
 
-    //#endregion
+     //#endregion
 }

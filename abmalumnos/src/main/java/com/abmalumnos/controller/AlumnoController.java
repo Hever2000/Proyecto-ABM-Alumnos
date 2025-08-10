@@ -1,6 +1,6 @@
 package com.abmalumnos.controller;
 
-import com.abmalumnos.Alumno;
+import com.abmalumnos.dataStructures.Alumno;
 import com.abmalumnos.repository.AlumnoRepository;
 
 import java.util.Iterator;

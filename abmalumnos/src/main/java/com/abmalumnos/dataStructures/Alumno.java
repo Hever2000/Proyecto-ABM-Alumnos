@@ -1,4 +1,4 @@
-package com.abmalumnos;
+package com.abmalumnos.dataStructures;
 
 import jakarta.persistence.*;
 
