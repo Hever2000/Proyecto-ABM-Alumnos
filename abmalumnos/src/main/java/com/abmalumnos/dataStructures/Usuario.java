@@ -16,6 +16,7 @@ public class Usuario {
     @JoinColumn(name = "legajo")
     private Alumno alumno;
 
+    @Column(length = 256, nullable = false)
     private byte[] password;
 
 
