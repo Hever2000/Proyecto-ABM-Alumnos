@@ -43,3 +43,41 @@ const loginTab = document.getElementById('loginTab');
 fetch('http://localhost:8080/api/alumnos/1')
   .then(res => res.text())
   .then(data => console.log("GET:", data));
+
+document.addEventListener("DOMContentLoaded", () => {
+  // --- Lógica para el modal de cierre de sesión ---
+  // Esta lógica se aplicará a todas las páginas que incluyan este script
+  // y tengan el botón de logout y el modal.
+
+  const logoutBtn = document.querySelector(".logout-btn");
+  const modal = document.getElementById("confirmModal");
+
+  // Si no encontramos el botón o el modal en la página, no hacemos nada.
+  if (!logoutBtn || !modal) {
+    return;
+  }
+
+  const confirmBtn = document.getElementById("confirmBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+
+  logoutBtn.addEventListener("click", function (e) {
+    e.preventDefault(); // Prevenir la navegación inmediata
+    modal.style.display = "flex";
+  });
+
+  cancelBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  confirmBtn.addEventListener("click", function () {
+    localStorage.removeItem("usuario"); // Limpiar sesión
+    window.location.href = "index.html"; // Redirigir al login
+  });
+
+  // Cerrar el modal si se hace clic fuera de él
+  window.addEventListener("click", function (e) {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+});

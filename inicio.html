@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página - Inicio</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        h1 {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            color: #333;
-            font-size: 3em;
-        }
-        .menu {
-            background: #222;
-            padding: 0;
-            margin: 0 0 30px 0;
-            display: flex;
-            justify-content: center;
-        }
-        .menu a {
-            color: #fff;
-            text-decoration: none;
-            padding: 16px 32px;
-            display: block;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        .menu a:hover, .menu a.active {
-            background: #007bff;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema AMB Alumnos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <nav class="menu">
+      <div class="menu-center">
         <a href="inicio.html" class="active">Inicio</a>
         <a href="usuario.html">Perfil</a>
         <a href="companieros.html">Compañeros</a>
+      </div>
+      <a href="index.html" class="logout-btn">Cerrar sesión</a>
     </nav>
-    <h1>Inicio</h1>
-    <h2>Bienvenido al sistema</h2>
-</body>
+    <main>
+      <header class="hero">
+        <div class="hero-content">
+          <h1>Bienvenido al Sistema de Gestión Estudiantil</h1>
+          <p>
+            Administra tu perfil, conecta con tus compañeros y gestiona tu vida
+            académica.
+          </p>
+        </div>
+      </header>
+
+      <section class="features">
+        <div class="feature-card">
+          <h3>Tu Perfil Académico</h3>
+          <p>
+            Mantén tus datos personales y académicos actualizados. Revisa tus
+            materias y tu progreso.
+          </p>
+          <a href="usuario.html" class="btn-feature">Ir a mi Perfil</a>
+        </div>
+        <div class="feature-card">
+          <h3>Conecta con Compañeros</h3>
+          <p>
+            Busca a otros estudiantes, mira qué materias cursan y encuentra
+            grupos de estudio.
+          </p>
+          <a href="companieros.html" class="btn-feature">Buscar Compañeros</a>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

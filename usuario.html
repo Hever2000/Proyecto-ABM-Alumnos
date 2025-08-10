@@ -1,94 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Perfil de Usuario</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .menu {
-            background: #222;
-            padding: 0;
-            margin: 0 0 30px 0;
-            display: flex;
-            justify-content: center;
-        }
-        .menu a {
-            color: #fff;
-            text-decoration: none;
-            padding: 16px 32px;
-            display: block;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        .menu a:hover, .menu a.active {
-            background: #007bff;
-        }
-        .exito {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .perfil-box {
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            max-width: 600px;
-            margin: 40px auto;
-        }
-        .perfil-box h2 {
-            text-align: center;
-        }
-        .perfil-datos {
-            margin-top: 20px;
-        }
-        .perfil-datos strong {
-            display: inline-block;
-            width: 180px;
-        }
-        ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Perfil de Usuario</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .perfil-box {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    .perfil-box h2 {
+      text-align: center;
+    }
+    .perfil-datos p {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      margin-bottom: 2rem;
+    }
+    .perfil-datos strong {
+      width: 180px;
+      display: inline-block;
+    }
+    .btn-edit {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      max-width: fit-content;
+      margin: auto;
+      align-items: end;
+    }
+    .btn-edit img {
+      width: 16px;
+      height: 16px;
+    }
+    .btn-eliminar {
+      display: block;
+      margin: 20px auto 0;
+      background-color: #cc0000;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-eliminar:hover {
+      background-color: #990000;
+    }
+    input.inline-input {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 250px;
+    }
+  </style>
 </head>
 <body>
-    <nav class="menu">
-        <a href="inicio.html">Inicio</a>
-        <a href="usuario.html" class="active">Perfil</a>
-        <a href="companieros.html">Compañeros</a>
-    </nav>
-    <div class="perfil-box">
-        <div id="notificacion"></div>
-        <h2>Perfil de Usuario</h2>
-        <div class="perfil-datos" id="datosUsuario"></div>
+  <nav class="menu">
+    <div class="menu-center">
+      <a href="inicio.html" class="active">Inicio</a>
+      <a href="usuario.html">Perfil</a>
+      <a href="companieros.html">Compañeros</a>
     </div>
-    <script>
-        // Mostrar notificación si viene de registro exitoso
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('exito')) {
-            document.getElementById('notificacion').innerHTML = '<div class="exito">¡Usuario creado con éxito!</div>';
-        }
-        // Cargar datos del usuario
-        const datos = JSON.parse(localStorage.getItem('usuario') || '{}');
-        let html = '';
-        if (Object.keys(datos).length) {
-            html += `<p><strong>Nombre completo:</strong> ${datos.nombre || ''}</p>`;
-            html += `<p><strong>Fecha de nacimiento:</strong> ${datos.fechaNacimiento || ''}</p>`;
-            html += `<p><strong>DNI:</strong> ${datos.dni || ''}</p>`;
-            html += `<p><strong>Correo de la universidad:</strong> ${datos.correoUni || ''}</p>`;
-            html += `<p><strong>Datos de contacto:</strong> ${datos.contacto || '-'}</p>`;
-            html += `<p><strong>Carrera:</strong> ${datos.carrera || ''}</p>`;
-            html += `<p><strong>Materias que cursa:</strong> <ul>${(datos.materiasCursa||[]).map(m=>`<li>${m}</li>`).join('')}</ul></p>`;
-            html += `<p><strong>Materias aprobadas:</strong> <ul>${(datos.materiasAprobadas||[]).map(m=>`<li>${m}</li>`).join('')}</ul></p>`;
-        } else {
-            html = '<p>No hay datos de usuario.</p>';
-        }
-        document.getElementById('datosUsuario').innerHTML = html;
-    </script>
+    <a href="index.html" class="logout-btn">Cerrar sesión</a>
+  </nav>
+  
+  <div class="perfil-box">
+    <h2>Perfil de Usuario</h2>
+    <div class="perfil-datos" id="datosUsuario"></div>
+    <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
+  </div>
+
+  <script>
+    const datos = JSON.parse(localStorage.getItem("usuario") || "{}");
+    const campos = [
+      { key: "nombre", label: "Nombre completo" },
+      { key: "fechaNacimiento", label: "Fecha de nacimiento" },
+      { key: "dni", label: "DNI" },
+      { key: "correoUni", label: "Correo de la universidad" },
+      { key: "contacto", label: "Datos de contacto" },
+      { key: "carrera", label: "Carrera" }
+    ];
+
+    function renderPerfil() {
+      let html = "";
+      if (!Object.keys(datos).length) {
+        html = "<p>No hay datos de usuario.</p>";
+      } else {
+        campos.forEach(campo => {
+          html += `
+            <p>
+              <strong>${campo.label}:</strong>
+              <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
+              <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
+                <img src="pencil-line.png" alt="Editar">
+              </button>
+            </p>
+          `;
+        });
+      }
+      document.getElementById("datosUsuario").innerHTML = html;
+    }
+
+    function activarEdicion(campo) {
+      const span = document.getElementById(`valor-${campo}`);
+      const valorActual = datos[campo] || "";
+      span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
+                          onblur="guardarCambio('${campo}', this.value)" 
+                          onkeypress="if(event.key==='Enter'){this.blur();}">`;
+      span.querySelector("input").focus();
+    }
+
+    function guardarCambio(campo, nuevoValor) {
+      datos[campo] = nuevoValor.trim();
+      localStorage.setItem("usuario", JSON.stringify(datos));
+      renderPerfil();
+    }
+
+    document.getElementById("eliminarPerfil").addEventListener("click", () => {
+      if (confirm("¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.")) {
+        localStorage.removeItem("usuario");
+        window.location.href = "index.html";
+      }
+    });
+
+    renderPerfil();
+  </script>
 </body>
 </html>
