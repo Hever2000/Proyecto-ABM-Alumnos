@@ -19,22 +19,9 @@ public class AlumnoController {
     private AlumnoRepository alumnoRepository;
 
     @PostMapping("/register")
-    public @ResponseBody String agregarAlumno(@RequestBody Alumno alumno) {
+    public void agregarAlumno(@RequestBody Alumno alumno) {
         alumnoRepository.save(alumno);
-        return String.format("Alumno | %d | %s | ha sido agregado",
-                                alumno.getLegajo(), alumno.getNombre());
-    }
-
-    // Manda todos los datos de la clase alumno, con los nombres
-    @GetMapping("/{legajo}")
-    public @ResponseBody Alumno obtenerAlumno(@PathVariable("legajo") Integer legajo) {
-        Alumno ret = alumnoRepository.findById(legajo).orElse(null);
-
-        if (ret == null) throw new AlumnoNotFoundException(
-                String.format("Alumno con legajo %d no fue encontrado", legajo)
-                );
-
-        return ret;
+        
     }
 
     // Solo manda los datos publicos como nombre, correo, y carrera
@@ -54,5 +41,39 @@ public class AlumnoController {
 
         // Retorno la lista, que es un Iterable (Lo manda como json)
         return ret;
+    }
+
+    // Manda todos los datos de la clase alumno, con los nombres
+    @GetMapping("/{legajo}")
+    public @ResponseBody Alumno obtenerAlumno(@PathVariable("legajo") Integer legajo) {
+        Alumno ret = alumnoRepository.findById(legajo).orElse(null);
+
+        if (ret == null) throw new AlumnoNotFoundException(
+                String.format("Alumno con legajo %d no fue encontrado", legajo)
+                );
+
+        return ret;
+    }
+
+    // Sobreescribe al alumno de legajo X con la informacion nueva
+    @PutMapping("/{legajo}")
+    public void modificarAlumno(@PathVariable("legajo") Integer legajo, @RequestBody Alumno alumno){
+        if (!alumnoRepository.existsById(legajo))
+            throw new AlumnoNotFoundException(
+                String.format("Alumno con legajo %d no fue encontrado", legajo)
+            );
+
+        alumnoRepository.save(alumno);
+    }
+
+    // Elimina al alumno de legajo X
+    @DeleteMapping("/{legajo}")
+    public void eliminarAlumno(@PathVariable("legajo") Integer legajo){
+        if (!alumnoRepository.existsById(legajo))
+            throw new AlumnoNotFoundException(
+                String.format("Alumno con legajo %d no fue encontrado", legajo)
+            );
+        
+        alumnoRepository.deleteById(legajo);
     }
 }
