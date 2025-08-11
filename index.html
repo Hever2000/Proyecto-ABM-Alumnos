@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Sistema ABM de Alumnos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
-        <h2>Sistema ABM de Alumnos</h2>
-        <div class="tabs">
-            <div class="tab active" id="loginTab">Iniciar Sesión</div>
-            <div class="tab" id="registerTab">Registrarse</div>
-        </div>
-        <form id="loginForm" class="active">
-            <label for="loginUser">Usuario o Email</label>
-            <input type="text" id="loginUser" name="loginUser" required>
-            <label for="loginPass">Contraseña</label>
-            <input type="password" id="loginPass" name="loginPass" required>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-        <form id="registerForm">
-            <label for="regName">Nombre Completo</label>
-            <input type="text" id="regName" name="regName" required>
-            <label for="regEmail">Email</label>
-            <input type="email" id="regEmail" name="regEmail" required>
-            <label for="regUser">Usuario</label>
-            <input type="text" id="regUser" name="regUser" required>
-            <label for="regPass">Contraseña</label>
-            <input type="password" id="regPass" name="regPass" required>
-            <button type="submit">Registrarse</button>
-        </form>
+      <h2>Sistema ABM de Alumnos</h2>
+      <div class="tabs">
+        <div class="tab active" id="loginTab">Iniciar Sesión</div>
+      </div>
+      <form id="loginForm" class="active">
+        <label for="loginUser">Legajo</label>
+        <input type="text" id="loginUser" name="loginUser" required />
+        <label for="loginPass">Contraseña</label>
+        <input type="password" id="loginPass" name="loginPass" required />
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+      <br>
+      <a href="perfil.html" id="registerLink">¿No tienes cuenta? Regístrate</a>
     </div>
     <script src="script.js"></script>
   </body>

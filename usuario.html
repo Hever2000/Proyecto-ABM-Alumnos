@@ -1,137 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Perfil de Usuario</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .perfil-box {
-      background: #fff;
-      padding: 25px 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      max-width: 600px;
-      margin: 40px auto;
-    }
-    .perfil-box h2 {
-      text-align: center;
-    }
-    .perfil-datos p {
-      display: flex;
-      align-items: center;
-      margin: 8px 0;
-      margin-bottom: 2rem;
-    }
-    .perfil-datos strong {
-      width: 180px;
-      display: inline-block;
-    }
-    .btn-edit {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 2px;
-      max-width: fit-content;
-      margin: auto;
-      align-items: end;
-    }
-    .btn-edit img {
-      width: 16px;
-      height: 16px;
-    }
-    .btn-eliminar {
-      display: block;
-      margin: 20px auto 0;
-      background-color: #cc0000;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 5px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-eliminar:hover {
-      background-color: #990000;
-    }
-    input.inline-input {
-      padding: 4px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-      max-width: 250px;
-    }
-  </style>
-</head>
-<body>
-  <nav class="menu">
-    <div class="menu-center">
-      <a href="inicio.html" class="active">Inicio</a>
-      <a href="usuario.html">Perfil</a>
-      <a href="companieros.html">Compañeros</a>
-    </div>
-    <a href="index.html" class="logout-btn">Cerrar sesión</a>
-  </nav>
-  
-  <div class="perfil-box">
-    <h2>Perfil de Usuario</h2>
-    <div class="perfil-datos" id="datosUsuario"></div>
-    <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
-  </div>
-
-  <script>
-    const datos = JSON.parse(localStorage.getItem("usuario") || "{}");
-    const campos = [
-      { key: "nombre", label: "Nombre completo" },
-      { key: "fechaNacimiento", label: "Fecha de nacimiento" },
-      { key: "dni", label: "DNI" },
-      { key: "correoUni", label: "Correo de la universidad" },
-      { key: "contacto", label: "Datos de contacto" },
-      { key: "carrera", label: "Carrera" }
-    ];
-
-    function renderPerfil() {
-      let html = "";
-      if (!Object.keys(datos).length) {
-        html = "<p>No hay datos de usuario.</p>";
-      } else {
-        campos.forEach(campo => {
-          html += `
-            <p>
-              <strong>${campo.label}:</strong>
-              <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
-              <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
-                <img src="pencil-line.png" alt="Editar">
-              </button>
-            </p>
-          `;
-        });
+  <head>
+    <meta charset="UTF-8" />
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .perfil-box {
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        margin: 40px auto;
       }
-      document.getElementById("datosUsuario").innerHTML = html;
-    }
+      .perfil-box h2 {
+        text-align: center;
+      }
+      .perfil-datos p {
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        margin-bottom: 2rem;
+      }
+      .perfil-datos strong {
+        width: 180px;
+        display: inline-block;
+      }
+      .btn-edit {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 2px;
+        max-width: fit-content;
+        margin: auto;
+        align-items: end;
+      }
+      .btn-edit img {
+        width: 16px;
+        height: 16px;
+      }
+      .btn-eliminar {
+        display: block;
+        margin: 20px auto 0;
+        background-color: #cc0000;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .btn-eliminar:hover {
+        background-color: #990000;
+      }
+      input.inline-input {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="menu">
+      <div class="menu-center">
+        <a href="inicio.html" class="active">Inicio</a>
+        <a href="usuario.html">Perfil</a>
+        <a href="companieros.html">Compañeros</a>
+      </div>
+      <a href="index.html" class="logout-btn">Cerrar sesión</a>
+    </nav>
 
-    function activarEdicion(campo) {
-      const span = document.getElementById(`valor-${campo}`);
-      const valorActual = datos[campo] || "";
-      span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
-                          onblur="guardarCambio('${campo}', this.value)" 
-                          onkeypress="if(event.key==='Enter'){this.blur();}">`;
-      span.querySelector("input").focus();
-    }
+    <div class="perfil-box">
+      <h2>Perfil de Usuario</h2>
+      <div class="perfil-datos" id="datosUsuario"></div>
+      <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
+    </div>
 
-    function guardarCambio(campo, nuevoValor) {
-      datos[campo] = nuevoValor.trim();
-      localStorage.setItem("usuario", JSON.stringify(datos));
+    <script>
+// =======================
+// Configuración inicial
+// =======================
+const usuarioGuardado = JSON.parse(localStorage.getItem("usuario") || "{}");
+const legajoUsuario = usuarioGuardado.legajo; // Usar como identificador único
+
+let datos = {}; // Se llenará con el GET al backend
+
+const campos = [
+  { key: "legajo", label: "Legajo" },
+  { key: "nombre", label: "Nombre completo" },
+  { key: "dni", label: "DNI" },
+  { key: "fechaNacimiento", label: "Fecha de nacimiento" },
+  { key: "contacto", label: "Datos de contacto" },
+  { key: "correoUni", label: "Correo de la universidad" },
+  { key: "carrera", label: "Carrera" },
+  { key: "materiasCursa", label: "Materias que cursa" },
+  { key: "materiasAprobadas", label: "Materias aprobadas" },
+];
+
+// =======================
+// Renderizar perfil
+// =======================
+function renderPerfil() {
+  let html = "";
+  if (!Object.keys(datos).length) {
+    html = "<p>No hay datos de usuario.</p>";
+  } else {
+    campos.forEach((campo) => {
+      html += `
+        <p>
+          <strong>${campo.label}:</strong>
+          <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
+          <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
+            <img src="pencil-line.png" alt="Editar">
+          </button>
+        </p>
+      `;
+    });
+  }
+  document.getElementById("datosUsuario").innerHTML = html;
+}
+
+// =======================
+// Activar edición en línea
+// =======================
+function activarEdicion(campo) {
+  const span = document.getElementById(`valor-${campo}`);
+  const valorActual = datos[campo] || "";
+  span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
+                    onblur="guardarCambio('${campo}', this.value)" 
+                    onkeypress="if(event.key==='Enter'){this.blur();}">`;
+  span.querySelector("input").focus();
+}
+
+// =======================
+// GET - Obtener datos del usuario
+// =======================
+function obtenerDatosUsuario() {
+  fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Error al obtener datos del usuario");
+      return response.json();
+    })
+    .then((data) => {
+      datos = data;
+      localStorage.setItem("usuario", JSON.stringify(data)); // Guardar en localStorage
       renderPerfil();
-    }
+    })
+    .catch((error) => console.error(error));
+}
 
-    document.getElementById("eliminarPerfil").addEventListener("click", () => {
-      if (confirm("¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.")) {
+// =======================
+// PUT - Guardar cambios en el backend
+// =======================
+function guardarCambio(campo, nuevoValor) {
+  datos[campo] = nuevoValor.trim();
+  localStorage.setItem("usuario", JSON.stringify(datos));
+
+  fetch(`http://localhost:8080/api/alumnos/${datos.legajo}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(datos),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Error al actualizar en el servidor");
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Perfil actualizado:", data);
+      renderPerfil();
+    })
+    .catch((error) => console.error(error));
+}
+
+// =======================
+// DELETE - Eliminar usuario
+// =======================
+document.getElementById("eliminarPerfil").addEventListener("click", () => {
+  if (
+    confirm(
+      "¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer."
+    )
+  ) {
+    fetch(`http://localhost:8080/api/alumnos/${datos.legajo}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Error al eliminar en el servidor");
+        console.log("Perfil eliminado en base de datos");
+
         localStorage.removeItem("usuario");
         window.location.href = "index.html";
-      }
-    });
+      })
+      .catch((error) => console.error(error));
+  }
+});
 
-    renderPerfil();
-  </script>
-</body>
+// =======================
+// Cargar datos al iniciar
+// =======================
+obtenerDatosUsuario();
+
+    </script>
+  </body>
 </html>

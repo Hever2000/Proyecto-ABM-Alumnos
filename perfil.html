@@ -24,6 +24,9 @@
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required>
 
+            <label for="contraseña">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" required>
+
             <label for="fechaNacimiento">Fecha de nacimiento</label>
             <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
 
@@ -37,7 +40,11 @@
             <input type="text" id="contacto" name="contacto">
 
             <label for="carrera">Carrera</label>
-            <input type="text" id="carrera" name="carrera" required>
+            <div class="materias-list">
+                <label><input type="checkbox" name="materiasCursa[]" value="Ingenieria en Informatica"> Ingenieria en Informatica </label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Licenciatura en Sistemas"> Licenciatura en Informatica </label>
+            </div>
+            <br>
 
             <label>Materias que cursa</label>
             <div class="materias-list">
@@ -61,6 +68,8 @@
                 <label><input type="checkbox" name="materiasCursa[]" value="Álgebra I"> Álgebra I</label>
                 <label><input type="checkbox" name="materiasCursa[]" value="Álgebra II"> Álgebra II</label>
             </div>
+            <br>
+
 
             <label>Materias aprobadas</label>
             <div class="materias-list">
@@ -127,3 +136,4 @@
     </script>
 </body>
 </html>
+

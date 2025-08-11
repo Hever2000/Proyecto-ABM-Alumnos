@@ -117,8 +117,6 @@
             "Programación I",
             "Física I",
           ],
-          materiasAprobadas: ["Introducción a la Programación"],
-          dni: "47031873",
         },
       ];
 
@@ -144,11 +142,6 @@
                         <p><strong>Carrera:</strong> ${c.carrera || "-"}</p>
                         <p><strong>Materias que cursa:</strong>
                             <ul>${(c.materiasCursa || [])
-                              .map((m) => `<li>${m}</li>`)
-                              .join("")}</ul>
-                        </p>
-                        <p><strong>Materias aprobadas:</strong>
-                            <ul>${(c.materiasAprobadas || [])
                               .map((m) => `<li>${m}</li>`)
                               .join("")}</ul>
                         </p>
