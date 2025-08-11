@@ -23,6 +23,7 @@ public class Usuario {
     //#region setters
 
     public void setLegajo(Integer legajo) { this.legajo = legajo; }
+    public Integer getLegajo() { return legajo; }
 
     public void setAlumno(Alumno alumno) { this.alumno = alumno; }
 

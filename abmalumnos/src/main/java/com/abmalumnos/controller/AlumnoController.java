@@ -18,7 +18,7 @@ public class AlumnoController {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
-    @PostMapping("/register")
+    //@PostMapping("/register") -- Deshabilitado el endpoint
     public void agregarAlumno(@RequestBody Alumno alumno) {
         alumnoRepository.save(alumno);
         
