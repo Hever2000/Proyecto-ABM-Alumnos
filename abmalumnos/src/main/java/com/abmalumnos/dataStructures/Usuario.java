@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +22,7 @@ public class Usuario {
     private byte[] password;
 
 
-    //#region setters
+    //#region getters y setters
 
     public void setLegajo(Integer legajo) { this.legajo = legajo; }
     public Integer getLegajo() { return legajo; }
@@ -30,6 +32,8 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = hashString(password);
     }
+    @JsonIgnore
+    public byte[] getPassword() { return this.password; }
 
     //#endregion
 
