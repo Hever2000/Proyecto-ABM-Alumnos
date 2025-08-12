@@ -3,7 +3,6 @@ package com.abmalumnos.dataStructures;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,49 +48,22 @@ public class Alumno {
      * los nombres de las materias, y no los codigos
     */ 
 
-    @JsonIgnore
     public String getCarreras() { return carreras; }
 
-    // Devuelve los nombres canoncios de las carreas de las que es parte
-    public List<String> getNombreCarreras() {
-        return Carrera.getNombreCarreras(this.carreras.split(","));
+    public void setCarrera(String carreras) {
+        this.carreras = carreras;
     }
 
-    public void setCarrera(String nombreCarreras) {
-        this.carreras = "";
-        for (Integer codCarrera : Carrera.getCarreras(nombreCarreras.split(","))) {
-            this.carreras += String.format("%d,", codCarrera);
-        }
-    }
-
-    @JsonIgnore
     public String getMateriasAprobadas() { return materiasAprobadas; }
 
-    // Devuelve los nombres canonicos de las materias que aprobo
-    public List<String> getNombreMateriasAprobadas() {
-        return Materia.getNombreMaterias(this.materiasAprobadas.split(","));
-    }
-
     public void setMateriasAprobadas(String materiasAprobadas) {
-        this.materiasAprobadas = "";
-        for (Integer codMateria : Materia.getMaterias(materiasAprobadas.split(","))) {
-            this.materiasAprobadas += String.format("%d,", codMateria);
-        }
+        this.materiasAprobadas = materiasAprobadas;
     }
 
-    @JsonIgnore
     public String getMateriasCursa() { return materiasEnCurso; }
 
-    // Devuelve los nombres canonicos de las materias que cursa
-    public List<String> getNombreMateriasCursa() {
-        return Materia.getNombreMaterias(this.materiasEnCurso.split(","));
-    }
-
     public void setMateriasCursa(String materiasCursa) { 
-        this.materiasEnCurso = "";
-        for (Integer codMateria : Materia.getMaterias(materiasCursa.split(","))) {
-            this.materiasEnCurso += String.format("%d,", codMateria);
-        }
+        this.materiasEnCurso = materiasCursa;
      }
 
     /*
@@ -108,7 +80,8 @@ public class Alumno {
 
         ret.nombre = this.nombre;
         ret.correoUni = this.correoUni;
-        ret.carreras = String.join(",", this.getNombreCarreras());
+        ret.carreras = this.carreras;
+        ret.materiasEnCurso = this.materiasEnCurso;
 
         return ret;
     }

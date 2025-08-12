@@ -1,13 +1,5 @@
 package com.abmalumnos.dataStructures;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.abmalumnos.repository.MateriaRepository;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -30,60 +22,11 @@ public class Materia {
     private Integer codigoMateria;
     private String nombreMateria;
 
-    @Autowired
-    private static MateriaRepository materiaRepository;
-
      //#region Getters
 
      public Integer getCodigoMateria() { return codigoMateria; }
 
      public String getNombreMateria() { return nombreMateria; }
-
-    // Devuelve los nombres canoncios de las materias pasadas por parametro
-     public static List<String> getNombreMaterias(String[] codMateria) {
-        LinkedList<String> ret = new LinkedList<>();
-
-        for (int i = 0; i < codMateria.length; i++) {
-            Materia tmp = materiaRepository.findById(Integer.parseInt(codMateria[i]))
-                                            .orElse(null);
-            
-            if (tmp != null) {
-                ret.add(tmp.getNombreMateria());
-            } else {
-                new Exception(String.format(
-                    "Materia invalida detectada\nCodigo de materia invalida: %s\n",
-                    codMateria[i]))
-                    .printStackTrace();;
-            }
-        }
-
-        return ret;
-    }
-
-    // Devuelve los codigos de las materias pasadas por parametro
-    public static List<Integer> getMaterias(String[] nombreMaterias) {
-        LinkedList<Integer> ret = new LinkedList<>();
-        Iterator<Materia> list = materiaRepository.findAll().iterator();
-
-        while (list.hasNext()) {
-            boolean found = false;
-
-            for (int i = 0; !found && i < nombreMaterias.length; i++) {
-                Materia tmp = list.next();
-
-                if (tmp.nombreMateria.equals(nombreMaterias[i])) {
-                    found = true;
-                    ret.add(tmp.codigoMateria);
-                }
-            }
-
-            if (!found) {
-                // Log error here
-            }
-        }
-
-        return ret;
-    }
 
      //#endregion
 }
