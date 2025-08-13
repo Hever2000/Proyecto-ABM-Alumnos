@@ -1,13 +1,11 @@
 package com.abmalumnos.wrappers;
 
-import com.abmalumnos.dataStructures.Usuario;
-
 public class PassChangeWrapper {
-    private Usuario usuario;
+    private LoginDataWrapper loginData;
     private String nuevaContra;
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public LoginDataWrapper getLoginData() { return loginData; }
+    public void setUsuario(LoginDataWrapper loginData) { this.loginData = loginData; }
 
     public String getNuevaContra() { return nuevaContra; }
     public void setNuevaContra(String nuevaContra) { this.nuevaContra = nuevaContra; }
