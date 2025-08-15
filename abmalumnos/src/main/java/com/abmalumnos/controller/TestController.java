@@ -24,6 +24,9 @@ public class TestController {
     @GetMapping("/usuario")
     public @ResponseBody Usuario getUsuarioStructure() { return new Usuario(); }
 
+    @GetMapping("/array")
+    public @ResponseBody String[] getStringArr() { return new String[2]; }
+
     //#endregion
 
     //#region Wrappers
