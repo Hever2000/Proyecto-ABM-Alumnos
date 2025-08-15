@@ -95,8 +95,8 @@ public class AlumnoController {
     }
 
     // Elimina al alumno de legajo X
-    @DeleteMapping("/{legajo}")
-    public void eliminarAlumno(@PathVariable("legajo") Integer legajo){
+    //@DeleteMapping("/{legajo}") // Cerrado ya que un alumno no deberia ser eliminado sin su usuario
+    public void eliminarAlumno(Integer legajo){
         if (!alumnoRepository.existsById(legajo))
             throw new AlumnoNotFoundException(
                 String.format("Alumno con legajo %d no fue encontrado", legajo)
