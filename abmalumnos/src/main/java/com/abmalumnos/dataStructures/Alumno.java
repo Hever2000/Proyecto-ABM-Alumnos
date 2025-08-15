@@ -19,7 +19,7 @@ public class Alumno {
     private Integer legajo;
     @Column(nullable = false)
     private String nombre;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String dni;
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(nullable = false)
