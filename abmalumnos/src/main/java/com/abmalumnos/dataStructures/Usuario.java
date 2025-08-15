@@ -21,6 +21,9 @@ public class Usuario {
     @Column(length = 256, nullable = false)
     private byte[] password;
 
+    @Column(nullable = false)
+    private boolean esAdmin;
+
     public Usuario() {}
 
     public Usuario(Integer legajo, String password){
@@ -42,6 +45,8 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = hashString(password);
     }
+    
+    public boolean getEsAdmin(){ return esAdmin; }
 
     //#endregion
 
