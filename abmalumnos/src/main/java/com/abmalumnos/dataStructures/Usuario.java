@@ -1,7 +1,5 @@
 package com.abmalumnos.dataStructures;
 
-import jakarta.persistence.Entity;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -12,6 +10,7 @@ import jakarta.persistence.*;
 @Entity
 public class Usuario {
     @Id
+    @Column(nullable = false)
     private Integer legajo;
 
     @OneToOne
@@ -21,19 +20,27 @@ public class Usuario {
     @Column(length = 256, nullable = false)
     private byte[] password;
 
+    public Usuario() {}
+
+    public Usuario(Integer legajo, String password){
+        this.legajo = legajo;
+        this.setPassword(password);
+    }
 
     //#region getters y setters
 
-    public void setLegajo(Integer legajo) { this.legajo = legajo; }
     public Integer getLegajo() { return legajo; }
+    public void setLegajo(Integer legajo) { this.legajo = legajo; }
 
+    @JsonIgnore
+    public Alumno getAlumno() { return alumno; }
     public void setAlumno(Alumno alumno) { this.alumno = alumno; }
 
+    @JsonIgnore
+    public byte[] getPassword() { return this.password; }
     public void setPassword(String password) {
         this.password = hashString(password);
     }
-    @JsonIgnore
-    public byte[] getPassword() { return this.password; }
 
     //#endregion
 
