@@ -16,6 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AlumnoController {
 
+    //#region Singleton pattern
+    private static AlumnoController self;
+
+    public static AlumnoController getInstance(){
+        return self;
+    }
+
+    //#endregion
+
+    public AlumnoController(){
+        //Singleton setup
+        if(self != null){
+            System.err.println("Ya existe una instancia de Alumno Controller");
+            return;
+        }
+
+        self = this;
+    }
+
     @Autowired
     private AlumnoRepository alumnoRepository;
 

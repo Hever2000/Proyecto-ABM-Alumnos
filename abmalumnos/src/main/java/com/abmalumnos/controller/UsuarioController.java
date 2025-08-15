@@ -18,12 +18,11 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    private AlumnoController ac = new AlumnoController();
 
     @PostMapping("/register")
     public void agregarUsuario(@RequestBody RegisterWrapper rw) {
         // Tira 400 si ya existe (x dni)
-        Integer legajo = ac.agregarAlumno(rw.getAlumno());
+        Integer legajo = AlumnoController.getInstance().agregarAlumno(rw.getAlumno());
 
         // Creo y guardo al usuario
         Usuario usr = new Usuario(legajo, rw.getContra());
