@@ -91,6 +91,8 @@ public class UsuarioController {
         usuarioRepository.deleteById(loginData.getLegajo());
         AlumnoController.getInstance().eliminarAlumno(loginData.getLegajo());
         
+        //TODO: Mandar mail de confirmacion
+
         // Retorna 200 OK
     }
 
@@ -121,5 +123,9 @@ public class UsuarioController {
         
         usuarioRepository.deleteById(legajoAEliminar);
         AlumnoController.getInstance().eliminarAlumno(legajoAEliminar);
+        
+        //TODO: Mandar mail de baja x admin
+
+        // Retorna 200 OK
     }
 }
