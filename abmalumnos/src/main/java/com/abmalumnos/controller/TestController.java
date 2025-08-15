@@ -34,8 +34,15 @@ public class TestController {
     @GetMapping("/passchange")
     public @ResponseBody PassChangeWrapper getPassChangeWrapperStructure() {
         PassChangeWrapper pcd = new PassChangeWrapper();
-        pcd.setLoginData(new LoginDataWrapper());;
+        pcd.setLoginData(getLoginDataWrapperStructure());;
         return pcd;
+    }
+
+    @GetMapping("/register")
+    public @ResponseBody RegisterWrapper getRegisterWrapperStructure() {
+        RegisterWrapper rw = new RegisterWrapper();
+        rw.setAlumno(getAlumnoStructure());
+        return rw;
     }
 
     //#endregion

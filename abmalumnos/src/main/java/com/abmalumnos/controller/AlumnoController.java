@@ -2,6 +2,7 @@ package com.abmalumnos.controller;
 
 import com.abmalumnos.dataStructures.Alumno;
 import com.abmalumnos.exceptions.AlumnoNotFoundException;
+import com.abmalumnos.exceptions.UsuarioYaExistenteException;
 import com.abmalumnos.repository.AlumnoRepository;
 
 import java.util.Iterator;
@@ -19,9 +20,17 @@ public class AlumnoController {
     private AlumnoRepository alumnoRepository;
 
     //@PostMapping("/register") -- Deshabilitado el endpoint
-    public void agregarAlumno(@RequestBody Alumno alumno) {
+    public Integer agregarAlumno(Alumno alumno) {
+        // Busco duplicados
+        if (alumnoRepository.findByDNI(alumno.getDni()).orElse(null) != null) {
+            throw new UsuarioYaExistenteException();
+        }
+
+        //Guardo y se genera el ID (legajo)
         alumnoRepository.save(alumno);
-        
+
+        //Retorno el legajo
+        return alumno.getLegajo();
     }
 
     // Solo manda los datos publicos como nombre, correo, y carrera

@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.abmalumnos.dataStructures.Usuario;
-import com.abmalumnos.exceptions.UsuarioYaExistenteException;
 import com.abmalumnos.exceptions.WrongPasswordException;
 import com.abmalumnos.exceptions.UsuarioNotFoundException;
 import com.abmalumnos.repository.UsuarioRepository;
 import com.abmalumnos.wrappers.LoginDataWrapper;
 import com.abmalumnos.wrappers.PassChangeWrapper;
+import com.abmalumnos.wrappers.RegisterWrapper;
 
 @RestController
 @RequestMapping("api/usuarios")
@@ -18,16 +18,15 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    private AlumnoController ac = new AlumnoController();
 
     @PostMapping("/register")
-    public void agregarUsuario(@RequestBody Usuario usr) {
-        if(usuarioRepository.existsById(usr.getLegajo())){
-            // Retorna 400 BAD REQUEST
-            throw new UsuarioYaExistenteException(
-                String.format("El usuario %d intento crear un nuevo usuario", usr.getLegajo())
-                );
-        }
+    public void agregarUsuario(@RequestBody RegisterWrapper rw) {
+        // Tira 400 si ya existe (x dni)
+        Integer legajo = ac.agregarAlumno(rw.getAlumno());
 
+        // Creo y guardo al usuario
+        Usuario usr = new Usuario(legajo, rw.getContra());
         usuarioRepository.save(usr);
         
         // Retorna 200 OK
