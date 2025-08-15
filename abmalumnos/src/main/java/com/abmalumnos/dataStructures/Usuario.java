@@ -2,6 +2,7 @@ package com.abmalumnos.dataStructures;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,7 +47,7 @@ public class Usuario {
 
 
     public boolean tryPassword(String password) {
-        return this.password.equals(hashString(password));
+        return Arrays.equals(this.password, hashString(password));
     }
 
 
