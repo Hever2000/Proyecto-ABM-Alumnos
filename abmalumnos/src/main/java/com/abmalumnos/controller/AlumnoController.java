@@ -2,6 +2,7 @@ package com.abmalumnos.controller;
 
 import com.abmalumnos.dataStructures.Alumno;
 import com.abmalumnos.exceptions.AlumnoNotFoundException;
+import com.abmalumnos.exceptions.BadRequestException;
 import com.abmalumnos.exceptions.UsuarioYaExistenteException;
 import com.abmalumnos.repository.AlumnoRepository;
 
@@ -86,6 +87,11 @@ public class AlumnoController {
     // Sobreescribe al alumno de legajo X con la informacion nueva
     @PutMapping("/{legajo}")
     public void modificarAlumno(@PathVariable("legajo") Integer legajo, @RequestBody Alumno alumno){
+        if (!legajo.equals(alumno.getLegajo())) {
+            throw new BadRequestException(
+                String.format("Los legajos %d y %d no matchean", legajo, alumno.getLegajo())
+            );
+        }
         if (!alumnoRepository.existsById(legajo))
             throw new AlumnoNotFoundException(
                 String.format("Alumno con legajo %d no fue encontrado", legajo)
