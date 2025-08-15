@@ -8,5 +8,5 @@ import com.abmalumnos.dataStructures.Alumno;
 
 public interface AlumnoRepository extends CrudRepository<Alumno, Integer> {
   
-    Optional<Alumno> findByDNI(String dni);
+    Optional<Alumno> findBydni(String dni);
 }
