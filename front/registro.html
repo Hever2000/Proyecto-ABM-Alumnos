@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Completar Perfil</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .materias-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            margin-bottom: 15px;
+        }
+        .materias-list label {
+            min-width: 220px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Completar Perfil de Usuario</h2>
+        <form id="perfilForm" class="active">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="contraseña">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" required>
+
+            <label for="fechaNacimiento">Fecha de nacimiento</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+            <label for="dni">DNI</label>
+            <input type="text" id="dni" name="dni" required>
+
+            <label for="correoUni">Correo de la universidad</label>
+            <input type="email" id="correoUni" name="correoUni" required>
+
+            <label for="contacto">Datos de contacto (opcional)</label>
+            <input type="text" id="contacto" name="contacto">
+
+            <label for="carrera">Carrera</label>
+            <div class="materias-list">
+                <label><input type="checkbox" name="materiasCursa[]" value="Ingenieria en Informatica"> Ingenieria en Informatica </label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Licenciatura en Sistemas"> Licenciatura en Informatica </label>
+            </div>
+            <br>
+
+            <label>Materias que cursa</label>
+            <div class="materias-list">
+                <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático I"> Análisis Matemático I</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático II"> Análisis Matemático II</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Cálculo Numérico"> Cálculo Numérico</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="EDA"> EDA</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Física I"> Física I</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Física II"> Física II</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Administración de Empresas"> Administración de Empresas</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Introducción a la Programación"> Introducción a la Programación</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Programación I"> Programación I</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Programación II"> Programación II</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Química General"> Química General</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Información I"> Sistemas de Información I</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Representación"> Sistemas de Representación</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Álgebra I"> Álgebra I</label>
+                <label><input type="checkbox" name="materiasCursa[]" value="Álgebra II"> Álgebra II</label>
+            </div>
+            <br>
+
+
+            <label>Materias aprobadas</label>
+            <div class="materias-list">
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático I"> Análisis Matemático I</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático II"> Análisis Matemático II</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Cálculo Numérico"> Cálculo Numérico</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="EDA"> EDA</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Física I"> Física I</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Física II"> Física II</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Administración de Empresas"> Administración de Empresas</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Introducción a la Programación"> Introducción a la Programación</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Programación I"> Programación I</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Programación II"> Programación II</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Química General"> Química General</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Información I"> Sistemas de Información I</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Representación"> Sistemas de Representación</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra I"> Álgebra I</label>
+                <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra II"> Álgebra II</label>
+            </div>
+
+            <button type="submit">Guardar Perfil</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('perfilForm').onsubmit = function(e) {
+    e.preventDefault();
+    // Recolectar datos del formulario
+    const formData = new FormData(this);
+    const datos = {};
+    formData.forEach((value, key) => {
+        if (key.endsWith('[]')) {
+            const cleanKey = key.replace('[]', '');
+            if (!datos[cleanKey]) datos[cleanKey] = [];
+            datos[cleanKey].push(value);
+        } else {
+            datos[key] = value;
+        }
+    });
+
+    // Enviar los datos al backend
+    fetch('http://localhost:8080/api/alumnos/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.text())
+    .then(data => {
+        alert('Perfil guardado correctamente en el backend.');
+        // Guardar también en localStorage si lo deseas
+        localStorage.setItem('usuario', JSON.stringify(datos));
+        // Redirigir a la página de usuario
+        window.location.href = "perfil.html?exito=1";
+    })
+    .catch(err => {
+        alert('Error al guardar el perfil: ' + err);
+    });
+};
+    </script>
+</body>
+</html>
+
