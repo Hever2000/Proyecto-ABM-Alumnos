@@ -22,7 +22,7 @@ public class AlumnoController {
     //@PostMapping("/register") -- Deshabilitado el endpoint
     public Integer agregarAlumno(Alumno alumno) {
         // Busco duplicados
-        if (alumnoRepository.findByDNI(alumno.getDni()).orElse(null) != null) {
+        if (alumnoRepository.findBydni(alumno.getDni()).orElse(null) != null) {
             throw new UsuarioYaExistenteException();
         }
 
