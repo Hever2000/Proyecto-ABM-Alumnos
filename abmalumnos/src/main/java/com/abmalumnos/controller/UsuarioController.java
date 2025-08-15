@@ -93,4 +93,33 @@ public class UsuarioController {
         
         // Retorna 200 OK
     }
+
+    //Eliminar usuario para administradores
+    @DeleteMapping("/delete/{legajo}")
+    private void eliminarOtroUsuario(@PathVariable("legajo") Integer legajoAEliminar, @RequestBody LoginDataWrapper loginData){
+        Usuario admUsr = usuarioRepository.findById(loginData.getLegajo()).orElse(null);
+
+        if(admUsr == null)
+            // Retorna 404 NOT FOUND
+            throw new UsuarioNotFoundException(
+                String.format("El admin %d no fue encontrado", loginData.getLegajo())
+            );
+
+        if (!admUsr.tryPassword(loginData.getContra())) {
+            // Retorna 401 UNAUTHORIZED
+            throw new WrongPasswordException();
+        }
+
+
+        Usuario elimUsr = usuarioRepository.findById(legajoAEliminar).orElse(null);
+
+        if(elimUsr == null)
+            // Retorna 404 NOT FOUND
+            throw new UsuarioNotFoundException(
+                String.format("El usuario %d no fue encontrado", loginData.getLegajo())
+            );
+        
+        usuarioRepository.deleteById(legajoAEliminar);
+        AlumnoController.getInstance().eliminarAlumno(legajoAEliminar);
+    }
 }
