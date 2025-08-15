@@ -32,7 +32,11 @@ public class TestController {
     public @ResponseBody LoginDataWrapper getLoginDataWrapperStructure() { return new LoginDataWrapper(); }
 
     @GetMapping("/passchange")
-    public @ResponseBody PassChangeWrapper getPassChangeWrapperStructure() { return new PassChangeWrapper(); }
+    public @ResponseBody PassChangeWrapper getPassChangeWrapperStructure() {
+        PassChangeWrapper pcd = new PassChangeWrapper();
+        pcd.setLoginData(new LoginDataWrapper());;
+        return pcd;
+    }
 
     //#endregion
 }
