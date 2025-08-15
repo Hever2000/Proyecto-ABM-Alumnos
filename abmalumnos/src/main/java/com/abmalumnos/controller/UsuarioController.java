@@ -42,7 +42,7 @@ public class UsuarioController {
             );
         }
 
-        if (tmp.tryPassword(pcw.getLoginData().getContra())) {
+        if (!tmp.tryPassword(pcw.getLoginData().getContra())) {
             // Retorna 401 UNAUTHORIZED
             throw new WrongPasswordException();
         }
@@ -89,6 +89,7 @@ public class UsuarioController {
         }
 
         usuarioRepository.deleteById(loginData.getLegajo());
+        AlumnoController.getInstance().eliminarAlumno(loginData.getLegajo());
         
         // Retorna 200 OK
     }
