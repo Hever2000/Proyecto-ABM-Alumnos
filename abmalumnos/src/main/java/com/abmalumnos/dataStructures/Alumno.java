@@ -4,20 +4,36 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(indexes = {
+    @Index(columnList = "dni")
+})
 public class Alumno {
     @Id // Marca al legajo como llave primaria
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(updatable = false, nullable = false, unique = true)
     private Integer legajo;
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private String dni;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Column(nullable = false)
     private Date fechaNacimiento;
+    @Column(nullable = false)
     private String direccion;
+    // Opcional, puede ser null
     private String contacto;
+    @Column(nullable = false)
     private String correoUni;
+    @Column(nullable = false)
     private String carreras;
+    @Column(nullable = false)
     private String materiasAprobadas;
+    @Column(nullable = false)
     private String materiasEnCurso;
 
     //#region Getters y setters
