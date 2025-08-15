@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 })
 public class Alumno {
     @Id // Marca al legajo como llave primaria
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false, unique = true)
     private Integer legajo;
     @Column(nullable = false)
