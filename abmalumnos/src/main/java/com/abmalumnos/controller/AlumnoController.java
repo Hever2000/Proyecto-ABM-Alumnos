@@ -46,7 +46,9 @@ public class AlumnoController {
             throw new UsuarioYaExistenteException();
         }
 
-        //Guardo y se genera el ID (legajo)
+        // Me aseguro que el legajo sea null para que se genere uno nuevo
+        alumno.setLegajo(null);
+        // Guardo y se genera el ID (legajo)
         alumnoRepository.save(alumno);
 
         //Retorno el legajo
