@@ -49,3 +49,15 @@ Las acciones relevantes a los usuarios se encuentran en `http://[urlPagina]/api/
 + `/delete/{legajo}`    - DELETE    - Requiere la estructura LoginData  - Elimina al usuario indicado si sos admin
   - Retorna 401 [UNAUTHORIZED] si la contraseña no es correcta o el usuario no es admin
   - Retrona 404 [NOT FOUND] si no existe tal admin o usuario
+
+
+## Alumnos
+Las acciones relevantes a los alumnos se encuentran en `http://[urlPagina]/api/alumnos/XXX` donde `XXX` es la accion a realizar
+
+  `/XXX`                - Metodo    - [formato requerido](#estructuras-de-datos)                 - notas
++ `/all`                - GET       - No requiere nada                  - Devuelve los datos publicos de todos los alumnos
++ `/{legajo}`           - GET       - No requiere nada                  - Obtiene todos los datos de un alumno
+  - Retrona 404 [NOT FOUND] si no existe tal alumno
++ `/{legajo}`           - PUT       - Requiere la estructura Alumno     - Modifica los datos de un alumno
+  - Retrona 400 [BAD REQUEST] si los legajos no coinciden
+  - Retrona 404 [NOT FOUND] si no existe tal alumno
