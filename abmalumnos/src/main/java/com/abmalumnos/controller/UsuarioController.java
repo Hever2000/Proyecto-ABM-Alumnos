@@ -47,7 +47,7 @@ public class UsuarioController {
             throw new WrongPasswordException();
         }
 
-        //Actualizo solo la contra del usuario
+        // Actualizo solo la contra del usuario
         tmp.setPassword(pcw.getNuevaContra());
         
         usuarioRepository.save(tmp);
