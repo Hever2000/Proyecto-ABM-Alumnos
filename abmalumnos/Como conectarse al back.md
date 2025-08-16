@@ -29,6 +29,7 @@ Notas:
 - El legajo es inmutable y no puede ser cambiado
 - Notar que PassChange y Register son estructuras compuestas, y se deben mandar de la misma manera que se muestra aca
 - Pass change requiere el login actual, y una contraseña nueva
+- carreras, materiasAprobadas, y materiasCursa se representan mediante un string separado por comas eg "1,2,3" en vez de un array [1, 2, 3]
 
 
 ## Usuarios
