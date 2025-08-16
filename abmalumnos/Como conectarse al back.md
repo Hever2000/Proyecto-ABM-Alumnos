@@ -61,3 +61,15 @@ Las acciones relevantes a los alumnos se encuentran en `http://[urlPagina]/api/a
 + `/{legajo}`           - PUT       - Requiere la estructura Alumno     - Modifica los datos de un alumno
   - Retrona 400 [BAD REQUEST] si los legajos no coinciden
   - Retrona 404 [NOT FOUND] si no existe tal alumno
+
+## Materias y Carreras
+Las Materias y Carreras se maneja desde sus respecivos "codigo de materia" o "codigo de carrera"
+Para que el cliente no se tenga que aprender dichos codigos, el backeend provee una manera de traducir una lista de codigos a una lista de nombres
+Esta se encuentra en `http://[urlPagina]/api/alumnos/XXX` donde `XXX` es la traduccion requerida
+Codigos invalidos son ignorados
+
+  `/XXX`                - Metodo    - [formato requerido](#estructuras-de-datos)                 - notas
++ `/carreras`           - GET       - Requiere array de codigos         - Retorna los nombres de las carreras pedidas
++ `/materias`           - GET       - Requiere array de codigos         - Retorna los nombres de las materias pedidas
++ `/all/carreras`       - GET       - No requiere nada                  - Retorna todas las carreras, con codigos y nombres
++ `/all/materias`       - GET       - No requiere nada                  - Retorna todas las materias, con codigos y nombres
