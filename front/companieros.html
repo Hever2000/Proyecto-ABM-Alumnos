@@ -74,11 +74,11 @@
   <body>
     <nav class="menu">
       <div class="menu-center">
-        <a href="inicio.html" class="active">Inicio</a>
+        <a href="inicio.html">Inicio</a>
         <a href="perfil.html">Perfil</a>
-        <a href="companieros.html">Compañeros</a>
+        <a href="companieros.html" class="active">Compañeros</a>
       </div>
-      <a href="index.html" class="logout-btn">Cerrar sesión</a>
+      <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
     </nav>
     <div class="buscador-container">
       <input
@@ -104,6 +104,7 @@
         </div>
       </div>
     </div>
+    <script src="script.js"></script>
     <script>
       // Simulación de compañeros (incluye al usuario actual)
       // Puedes reemplazar este array por una consulta a una API o almacenamiento real
@@ -119,6 +120,33 @@
           ],
         },
       ];
+
+      // Reemplazar el array fijo por datos reales
+      async function cargarCompanieros() {
+          try {
+              const response = await fetch('http://localhost:8080/api/alumnos/all');
+              if (!response.ok) throw new Error('Error al cargar compañeros');
+              const companieros = await response.json();
+              
+              // Traducir códigos de carreras
+              const codigosCarreras = [...new Set(companieros.flatMap(a => a.carreras))];
+              const nombresCarreras = await traducirCodigos('carreras', codigosCarreras);
+              
+              // Asignar nombres a cada alumno
+              companieros.forEach(a => {
+                  a.carrera = a.carreras.map(cod => nombresCarreras[cod]).join(', ');
+              });
+              
+              window.companieros = companieros;
+              renderCompanieros(companieros);
+          } catch (error) {
+              console.error(error);
+              document.getElementById('companierosList').innerHTML = '<p>Error al cargar los compañeros</p>';
+          }
+      }
+
+// Llamar a esta función al cargar la página
+carggarCompanieros();
 
       const usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
       if (

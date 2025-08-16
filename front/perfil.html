@@ -69,7 +69,7 @@
         <a href="perfil.html" class="active">Perfil</a>
         <a href="companieros.html">Compañeros</a>
       </div>
-      <a href="index.html" class="logout-btn">Cerrar sesión</a>
+      <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
     </nav>
 
     <div class="perfil-box">
@@ -78,136 +78,227 @@
       <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
     </div>
 
+    <script src="script.js"></script>
     <script>
-// =======================
-// Configuración inicial
-// =======================
-const legajoUsuario = JSON.parse(localStorage.getItem("legajo") || "{}");
+      // =======================
+      // Configuración inicial
+      // =======================
+      const legajoUsuario = localStorage.getItem("legajo");
+      let datos = {};
 
+      // Campos editables (los inmutables no se mostrarán con botón de edición)
+      const camposEditables = [
+        { key: "nombre", label: "Nombre completo" },
+        { key: "dni", label: "DNI" },
+        { key: "fechaNacimiento", label: "Fecha de nacimiento" },
+        { key: "contacto", label: "Datos de contacto" },
+        { key: "correoUni", label: "Correo de la universidad" }
+      ];
 
-let datos = {}; // Se llenará con el GET al backend
+      // Campos inmutables o que requieren manejo especial
+      const camposEspeciales = [
+        { key: "legajo", label: "Legajo" },
+        { key: "carreras", label: "Carreras" },
+        { key: "materiasCursa", label: "Materias que cursa" },
+        { key: "materiasAprobadas", label: "Materias aprobadas" }
+      ];
 
+      // =======================
+      // Funciones de traducción
+      // =======================
+      async function traducirCodigos(tipo, codigos) {
+        if (!codigos || codigos.length === 0) return [];
+        
+        try {
+          const response = await fetch(`http://localhost:8080/api/alumnos/${tipo}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(codigos)
+          });
+          
+          if (!response.ok) {
+            throw new Error("Error traduciendo códigos");
+          }
+          
+          return response.json();
+        } catch (error) {
+          console.error("Error en traducción:", error);
+          return codigos; // Devuelve los códigos si falla la traducción
+        }
+      }
 
+      // =======================
+      // Renderizar perfil
+      // =======================
+      async function renderPerfil() {
+        let html = "";
+        
+        // Campos editables
+        camposEditables.forEach((campo) => {
+          html += `
+            <p>
+              <strong>${campo.label}:</strong>
+              <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
+              <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
+                <img src="pencil-line.png" alt="Editar">
+              </button>
+            </p>
+          `;
+        });
+        
+        // Campos especiales (sin botón de edición)
+        camposEspeciales.forEach((campo) => {
+          let valor = datos[campo.key] || "";
+          
+          // Para arrays, mostramos como lista
+          if (Array.isArray(valor)) {
+            valor = valor.join(", ");
+          }
+          
+          html += `
+            <p>
+              <strong>${campo.label}:</strong>
+              <span id="valor-${campo.key}">${valor}</span>
+            </p>
+          `;
+        });
+        
+        document.getElementById("datosUsuario").innerHTML = html;
+      }
 
+      // =======================
+      // Activar edición en línea
+      // =======================
+      function activarEdicion(campo) {
+        const span = document.getElementById(`valor-${campo}`);
+        const valorActual = datos[campo] || "";
+        span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
+                          onblur="guardarCambio('${campo}', this.value)" 
+                          onkeypress="if(event.key==='Enter'){this.blur();}">`;
+        span.querySelector("input").focus();
+      }
 
-const campos = [
-  { key: "legajo", label: "Legajo" },
-  { key: "nombre", label: "Nombre completo" },
-  { key: "dni", label: "DNI" },
-  { key: "fechaNacimiento", label: "Fecha de nacimiento" },
-  { key: "contacto", label: "Datos de contacto" },
-  { key: "correoUni", label: "Correo de la universidad" },
-  { key: "carreras", label: "Carreras" },
-  { key: "materiasCursa", label: "Materias que cursa" },
-  { key: "materiasAprobadas", label: "Materias aprobadas" },
-];
+      // =======================
+      // GET - Obtener datos del usuario
+      // =======================
+      async function obtenerDatosUsuario() {
+        try {
+          const response = await fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
+          
+          if (!response.ok) {
+            throw new Error("Error al obtener datos del usuario");
+          }
+          
+          datos = await response.json();
+          
+          // Traducir códigos a nombres
+          const [nombresCarreras, nombresMateriasCursa, nombresMateriasAprob] = await Promise.all([
+            traducirCodigos("carreras", datos.carreras || []),
+            traducirCodigos("materias", datos.materiasCursa || []),
+            traducirCodigos("materias", datos.materiasAprobadas || [])
+          ]);
+          
+          // Actualizar datos para mostrar nombres
+          datos.carreras = nombresCarreras;
+          datos.materiasCursa = nombresMateriasCursa;
+          datos.materiasAprobadas = nombresMateriasAprob;
+          
+          renderPerfil();
+        } catch (error) {
+          console.error(error);
+          document.getElementById("datosUsuario").innerHTML = 
+            `<p class="error">Error al cargar el perfil: ${error.message}</p>`;
+        }
+      }
 
-// =======================
-// Renderizar perfil
-// =======================
-function renderPerfil() {
-  let html = "";
-  if (!Object.keys(datos).length) {
-    html = "<p>No hay datos de usuario.</p>";
-  } else {
-    campos.forEach((campo) => {
-      html += `
-        <p>
-          <strong>${campo.label}:</strong>
-          <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
-          <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
-            <img src="pencil-line.png" alt="Editar">
-          </button>
-        </p>
-      `;
-    });
-  }
-  document.getElementById("datosUsuario").innerHTML = html;
-}
+      // =======================
+      // PUT - Guardar cambios en el backend
+      // =======================
+      async function guardarCambio(campo, nuevoValor) {
+        // Crear copia de los datos para enviar al backend
+        const datosActualizados = {...datos};
+        datosActualizados[campo] = nuevoValor.trim();
+        
+        // Eliminar campos que no deben enviarse o que el backend no espera
+        delete datosActualizados.carreras;
+        delete datosActualizados.materiasCursa;
+        delete datosActualizados.materiasAprobadas;
+        
+        try {
+          const response = await fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datosActualizados)
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error al actualizar en el servidor");
+          }
+          
+          const data = await response.json();
+          console.log("Perfil actualizado:", data);
+          
+          // Actualizar datos locales con la respuesta del servidor
+          datos[campo] = nuevoValor.trim();
+          renderPerfil();
+          
+        } catch (error) {
+          console.error("Error al guardar cambios:", error);
+          alert(`Error al guardar cambios: ${error.message}`);
+        }
+      }
 
+      // =======================
+      // DELETE - Eliminar usuario
+      // =======================
+      document.getElementById("eliminarPerfil").addEventListener("click", async () => {
+        if (!confirm("¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.")) {
+          return;
+        }
+        
+        const contra = prompt("Por favor ingresa tu contraseña para confirmar:");
+        if (!contra) return;
+        
+        try {
+          const loginData = {
+            legajo: legajoUsuario,
+            contra: contra
+          };
+          
+          const response = await fetch(`http://localhost:8080/api/usuarios/delete/${legajoUsuario}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginData)
+          });
+          
+          if (!response.ok) {
+            if (response.status === 401) throw new Error("Contraseña incorrecta");
+            throw new Error("Error al eliminar el perfil");
+          }
+          
+          alert("Tu perfil ha sido eliminado correctamente");
+          localStorage.removeItem("legajo");
+          window.location.href = "index.html";
+          
+        } catch (error) {
+          console.error("Error al eliminar:", error);
+          alert(`Error al eliminar el perfil: ${error.message}`);
+        }
+      });
 
-// =======================
-// Activar edición en línea
-// =======================
-function activarEdicion(campo) {
-  const span = document.getElementById(`valor-${campo}`);
-  const valorActual = datos[campo] || "";
-  span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
-                    onblur="guardarCambio('${campo}', this.value)" 
-                    onkeypress="if(event.key==='Enter'){this.blur();}">`;
-  span.querySelector("input").focus();
-}
-
-// =======================
-// GET - Obtener datos del usuario
-// =======================
-function obtenerDatosUsuario() {
-  fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Error al obtener datos del usuario");
-      return response.json();
-    })
-    .then((data) => {
-      datos = data;
-      renderPerfil();
-    })
-    .catch((error) => console.error(error));
-}
-
-// =======================
-// PUT - Guardar cambios en el backend
-// =======================
-function guardarCambio(campo, nuevoValor) {
-  datos[campo] = nuevoValor.trim();
-  localStorage.setItem("usuario", JSON.stringify(datos));
-
-  fetch(`http://localhost:8080/api/alumnos/${datos.legajo}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(datos),
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Error al actualizar en el servidor");
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Perfil actualizado:", data);
-      renderPerfil();
-    })
-    .catch((error) => console.error(error));
-}
-
-// =======================
-// DELETE - Eliminar usuario
-// =======================
-document.getElementById("eliminarPerfil").addEventListener("click", () => {
-  if (
-    confirm(
-      "¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer."
-    )
-  ) {
-    fetch(`http://localhost:8080/api/alumnos/${datos.legajo}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al eliminar en el servidor");
-        console.log("Perfil eliminado en base de datos");
-
-        localStorage.removeItem("usuario");
-        window.location.href = "index.html";
-      })
-      .catch((error) => console.error(error));
-  }
-});
-
-// =======================
-// Cargar datos al iniciar
-// =======================
-obtenerDatosUsuario();
-
+      // =======================
+      // Cargar datos al iniciar
+      // =======================
+      if (!legajoUsuario) {
+        document.getElementById("datosUsuario").innerHTML = 
+          `<p class="error">No se encontró información de usuario. Por favor inicia sesión.</p>`;
+      } else {
+        obtenerDatosUsuario();
+      }
     </script>
   </body>
 </html>

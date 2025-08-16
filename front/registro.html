@@ -39,60 +39,68 @@
             <label for="contacto">Datos de contacto (opcional)</label>
             <input type="text" id="contacto" name="contacto">
 
-            <label for="carrera">Carrera</label>
-            <div class="materias-list">
-                <label><input type="checkbox" name="materiasCursa[]" value="Ingenieria en Informatica"> Ingenieria en Informatica </label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Licenciatura en Sistemas"> Licenciatura en Informatica </label>
-            </div>
-            <br>
 
-            <label>Materias que cursa</label>
-            <div class="materias-list">
-                <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático I"> Análisis Matemático I</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático II"> Análisis Matemático II</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Cálculo Numérico"> Cálculo Numérico</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="EDA"> EDA</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Física I"> Física I</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Física II"> Física II</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Administración de Empresas"> Administración de Empresas</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Introducción a la Programación"> Introducción a la Programación</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Programación I"> Programación I</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Programación II"> Programación II</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Química General"> Química General</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Información I"> Sistemas de Información I</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Representación"> Sistemas de Representación</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Álgebra I"> Álgebra I</label>
-                <label><input type="checkbox" name="materiasCursa[]" value="Álgebra II"> Álgebra II</label>
-            </div>
+            <fieldset>
+                <legend>Carrera</legend>
+                <div class="materias-list">
+                    <label><input type="checkbox" name="materiasCursa[]" value="Ingenieria en Informatica"> Ingenieria en Informatica </label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Licenciatura en Sistemas"> Licenciatura en Informatica </label>
+                </div>
+            </fieldset>
             <br>
 
 
-            <label>Materias aprobadas</label>
-            <div class="materias-list">
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático I"> Análisis Matemático I</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático II"> Análisis Matemático II</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Cálculo Numérico"> Cálculo Numérico</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="EDA"> EDA</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Física I"> Física I</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Física II"> Física II</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Administración de Empresas"> Administración de Empresas</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Introducción a la Programación"> Introducción a la Programación</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Programación I"> Programación I</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Programación II"> Programación II</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Química General"> Química General</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Información I"> Sistemas de Información I</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Representación"> Sistemas de Representación</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra I"> Álgebra I</label>
-                <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra II"> Álgebra II</label>
-            </div>
+            <fieldset>
+                <legend>Materias que cursa</legend>
+                <div class="materias-list">
+                    <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático I"> Análisis Matemático I</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático II"> Análisis Matemático II</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Cálculo Numérico"> Cálculo Numérico</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="EDA"> EDA</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Física I"> Física I</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Física II"> Física II</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Administración de Empresas"> Administración de Empresas</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Introducción a la Programación"> Introducción a la Programación</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Programación I"> Programación I</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Programación II"> Programación II</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Química General"> Química General</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Información I"> Sistemas de Información I</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Representación"> Sistemas de Representación</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Álgebra I"> Álgebra I</label>
+                    <label><input type="checkbox" name="materiasCursa[]" value="Álgebra II"> Álgebra II</label>
+                </div>
+            </fieldset>
+            <br>
+
+            <fieldset>
+                <legend>Materias aprobadas</legend>
+                <div class="materias-list">
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático I"> Análisis Matemático I</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático II"> Análisis Matemático II</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Cálculo Numérico"> Cálculo Numérico</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="EDA"> EDA</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Física I"> Física I</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Física II"> Física II</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Administración de Empresas"> Administración de Empresas</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Introducción a la Programación"> Introducción a la Programación</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Programación I"> Programación I</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Programación II"> Programación II</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Química General"> Química General</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Información I"> Sistemas de Información I</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Representación"> Sistemas de Representación</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra I"> Álgebra I</label>
+                    <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra II"> Álgebra II</label>
+                </div>
+            </fieldset>
+            <br>
 
             <button type="submit">Guardar Perfil</button>
         </form>
@@ -100,38 +108,38 @@
     <script>
         document.getElementById('perfilForm').onsubmit = function(e) {
     e.preventDefault();
-    // Recolectar datos del formulario
+    
+    // Recolectar datos
     const formData = new FormData(this);
-    const datos = {};
-    formData.forEach((value, key) => {
-        if (key.endsWith('[]')) {
-            const cleanKey = key.replace('[]', '');
-            if (!datos[cleanKey]) datos[cleanKey] = [];
-            datos[cleanKey].push(value);
-        } else {
-            datos[key] = value;
-        }
-    });
-
-    // Enviar los datos al backend
-    fetch('http://localhost:8080/api/alumnos/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    const datos = {
+        alumno: {
+            nombre: formData.get('nombre'),
+            dni: formData.get('dni'),
+            fechaNacimiento: formData.get('fechaNacimiento'),
+            contacto: formData.get('contacto'),
+            correoUni: formData.get('correoUni'),
+            carreras: formData.getAll('carreras[]'),
+            materiasCursa: formData.getAll('materiasCursa[]'),
+            materiasAprobadas: formData.getAll('materiasAprobadas[]')
         },
+        contra: formData.get('contraseña')
+    };
+
+    // Enviar al backend
+    fetch('http://localhost:8080/api/usuarios/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos)
     })
-    .then(res => res.text())
-    .then(data => {
-        alert('Perfil guardado correctamente en el backend.');
-        // Guardar también en localStorage si lo deseas
-        localStorage.setItem('usuario', JSON.stringify(datos));
-        // Redirigir a la página de usuario
-        window.location.href = "perfil.html?exito=1";
+    .then(response => {
+        if (response.status === 400) throw new Error('Usuario ya existe');
+        return response.json();
     })
-    .catch(err => {
-        alert('Error al guardar el perfil: ' + err);
-    });
+    .then(data => {
+        localStorage.setItem('legajo', data.alumno.legajo);
+        window.location.href = "perfil.html";
+    })
+    .catch(err => alert('Error: ' + err.message));
 };
     </script>
 </body>
