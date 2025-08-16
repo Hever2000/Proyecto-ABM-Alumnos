@@ -107,7 +107,7 @@ public class UsuarioController {
                 String.format("El admin %d no fue encontrado", loginData.getLegajo())
             );
 
-        if (!admUsr.tryPassword(loginData.getContra())) {
+        if (!admUsr.tryPassword(loginData.getContra()) || admUsr.getEsAdmin()) {
             // Retorna 401 UNAUTHORIZED
             throw new WrongPasswordException();
         }
