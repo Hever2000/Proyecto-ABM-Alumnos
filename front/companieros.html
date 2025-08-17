@@ -151,7 +151,10 @@
         async function cargarCompanieros() {
             try {
                 // Obtener todos los alumnos
-                const response = await fetch(`${BASE_URL}/alumnos/all`);
+                const response = await fetch(`${BASE_URL}/alumnos/all`, { 
+                  method: "GET", 
+                  headers: { "Content-Type": "application/json" }
+                });
                 if (!response.ok) throw new Error('Error al cargar compañeros');
                 let alumnos = await response.json();
                 
@@ -245,7 +248,7 @@
         // Inicialización
         // =======================
         cargarCompanieros();
-        
+
     </script>
 </body>
 </html>

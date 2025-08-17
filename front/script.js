@@ -9,7 +9,7 @@ loginForm.onsubmit = function(e) {
     const contra = document.getElementById('loginPass').value;
     
     fetch('http://localhost:8080/api/usuarios/login', {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ legajo, contra })
     })
