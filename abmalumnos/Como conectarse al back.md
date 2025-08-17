@@ -41,7 +41,7 @@ Las acciones relevantes a los usuarios se encuentran en `http://[urlPagina]/api/
 + `/changePass`         - PUT       - Requiere la estructura PassChange - Cambia la contraseña de un usuario
   - Retorna 401 [UNAUTHORIZED] si la contraseña vieja no es correcta
   - Retorna 404 [NOT FOUND] si no existe tal usuario;
-+ `/login`              - GET       - Requiere la estructura LoginData  - Inicio de sesion
++ `/login`              - POST      - Requiere la estructura LoginData  - Inicio de sesion
   - Retorna 401 [UNAUTHORIZED] si la contraseña no es correcta
   - Retrona 404 [NOT FOUND] si no existe tal usuario
 + `/delete`             - DELETE    - Requiere la estructura LoginData  - Elimina al usuario logeado

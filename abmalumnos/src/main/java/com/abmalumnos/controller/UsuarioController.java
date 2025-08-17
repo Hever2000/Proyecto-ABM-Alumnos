@@ -55,7 +55,7 @@ public class UsuarioController {
         // Retorna 200 OK
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public void iniciarSesion(@RequestBody LoginDataWrapper loginData){
         Usuario usr = usuarioRepository.findById(loginData.getLegajo()).orElse(null);
 
