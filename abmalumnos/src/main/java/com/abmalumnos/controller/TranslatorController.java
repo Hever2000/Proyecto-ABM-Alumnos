@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class TranslatorController {
     
     // Devuelve los nombres canoncios de las carreas pasadas por parametro
     @GetMapping("/carreras")
-    public @ResponseBody List<String> getNombreCarreras(@RequestBody String[] codCarrera) {
+    public @ResponseBody List<String> getNombreCarreras(@RequestParam("codigos") String[] codCarrera) {
         LinkedList<String> ret = new LinkedList<>();
 
         for (int i = 0; i < codCarrera.length; i++) {
@@ -52,7 +53,7 @@ public class TranslatorController {
 
     @GetMapping("/materias")
     // Devuelve los nombres canoncios de las materias pasadas por parametro
-     public @ResponseBody List<String> getNombreMaterias(@RequestBody String[] codMateria) {
+     public @ResponseBody List<String> getNombreMaterias(@RequestParam("codigos") String[] codMateria) {
         LinkedList<String> ret = new LinkedList<>();
 
         for (int i = 0; i < codMateria.length; i++) {

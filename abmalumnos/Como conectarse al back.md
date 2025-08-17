@@ -70,7 +70,7 @@ Esta se encuentra en `http://[urlPagina]/api/translate/XXX` donde `XXX` es la tr
 Codigos invalidos son ignorados
 
   `/XXX`                - Metodo    - [formato requerido](#estructuras-de-datos)                 - notas
-+ `/carreras`           - GET       - Requiere array de codigos         - Retorna los nombres de las carreras pedidas
-+ `/materias`           - GET       - Requiere array de codigos         - Retorna los nombres de las materias pedidas
++ `/carreras`           - GET       - Requiere un csv de codigos por url- Retorna los nombres de las carreras pedidas como array
++ `/materias`           - GET       - Requiere un csv de codigos por url- Retorna los nombres de las materias pedidas como array
 + `/all/carreras`       - GET       - No requiere nada                  - Retorna todas las carreras, con codigos y nombres
 + `/all/materias`       - GET       - No requiere nada                  - Retorna todas las materias, con codigos y nombres
