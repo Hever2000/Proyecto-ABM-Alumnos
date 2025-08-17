@@ -153,7 +153,6 @@
             .then(response => {
                 if (response.status === 400) throw new Error('Usuario ya existe');
                 if (!response.ok) throw new Error('Error en el registro');
-                return response.json();
             })
             .then(data => {
                 localStorage.setItem('legajo', data.alumno.legajo);
