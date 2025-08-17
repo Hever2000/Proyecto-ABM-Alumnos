@@ -66,7 +66,7 @@ Las acciones relevantes a los alumnos se encuentran en `http://[urlPagina]/api/a
 ## Materias y Carreras
 Las Materias y Carreras se maneja desde sus respecivos "codigo de materia" o "codigo de carrera"
 Para que el cliente no se tenga que aprender dichos codigos, el backeend provee una manera de traducir una lista de codigos a una lista de nombres
-Esta se encuentra en `http://[urlPagina]/api/alumnos/XXX` donde `XXX` es la traduccion requerida
+Esta se encuentra en `http://[urlPagina]/api/translate/XXX` donde `XXX` es la traduccion requerida
 Codigos invalidos son ignorados
 
   `/XXX`                - Metodo    - [formato requerido](#estructuras-de-datos)                 - notas
