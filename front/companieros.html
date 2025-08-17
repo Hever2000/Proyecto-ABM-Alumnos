@@ -1,233 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Compañeros</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-      .companieros-container {
-        max-width: 900px;
-        margin: 40px auto;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        justify-content: center;
-      }
-      .companiero-card {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        padding: 20px 28px;
-        width: 270px;
-        min-height: 220px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .companiero-card h3 {
-        margin: 0 0 8px 0;
-        font-size: 1.2em;
-        color: #007bff;
-      }
-      .companiero-card p {
-        margin: 4px 0;
-        font-size: 0.97em;
-      }
-      .companiero-card ul {
-        margin: 4px 0 0 18px;
-        padding: 0;
-        font-size: 0.95em;
-      }
-      .buscador-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 30px;
-        margin-top: 5rem;
-      }
-      .buscador-input {
-        max-width: 400px;
-        padding: 8px 12px;
-        font-size: 1em;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        margin-bottom: 10px;
-      }
-      .buscador-btn {
-        padding: 8px 18px;
-        font-size: 1em;
-        background: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.2s;
-        width: 100%;
-        max-width: 200px;
-      }
-      .buscador-btn:hover {
-        background: #0056b3;
-      }
+        .companieros-container {
+            max-width: 900px;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .companiero-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 20px 28px;
+            width: 270px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .companiero-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .companiero-card p {
+            margin: 4px 0;
+            font-size: 0.97em;
+        }
+        .companiero-card ul {
+            margin: 4px 0 0 18px;
+            padding: 0;
+            font-size: 0.95em;
+        }
+        .buscador-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            margin-top: 5rem;
+        }
+        .buscador-input {
+            max-width: 400px;
+            padding: 8px 12px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .buscador-btn {
+            padding: 8px 18px;
+            font-size: 1em;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            width: 100%;
+            max-width: 200px;
+        }
+        .buscador-btn:hover {
+            background: #0056b3;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: #cc0000;
+            text-align: center;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <nav class="menu">
-      <div class="menu-center">
-        <a href="inicio.html">Inicio</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="companieros.html" class="active">Compañeros</a>
-      </div>
-      <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
+        <div class="menu-center">
+            <a href="inicio.html">Inicio</a>
+            <a href="perfil.html">Perfil</a>
+            <a href="companieros.html" class="active">Compañeros</a>
+        </div>
+        <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
     </nav>
     <div class="buscador-container">
-      <input
-        type="text"
-        id="buscador"
-        class="buscador-input"
-        placeholder="Buscar por nombre y apellido..."
-      />
-      <button class="buscador-btn" onclick="filtrarCompanieros()">
-        Buscar
-      </button>
+        <input
+            type="text"
+            id="buscador"
+            class="buscador-input"
+            placeholder="Buscar por nombre y apellido..."
+        />
+        <button class="buscador-btn" onclick="filtrarCompanieros()">
+            Buscar
+        </button>
     </div>
     <div class="companieros-container" id="companierosList">
-      <!-- Aquí se mostrarán los compañeros -->
+        <p class="loading">Cargando compañeros...</p>
     </div>
     <div id="confirmModal" class="modal-overlay" style="display: none">
-      <div class="modal-content">
-        <h4>Confirmar Cierre de Sesión</h4>
-        <p>¿Estás seguro de que quieres cerrar la sesión?</p>
-        <div class="modal-actions">
-          <button id="confirmBtn" class="btn-confirm">Sí, cerrar sesión</button>
-          <button id="cancelBtn" class="btn-cancel">Cancelar</button>
+        <div class="modal-content">
+            <h4>Confirmar Cierre de Sesión</h4>
+            <p>¿Estás seguro de que quieres cerrar la sesión?</p>
+            <div class="modal-actions">
+                <button id="confirmBtn" class="btn-confirm">Sí, cerrar sesión</button>
+                <button id="cancelBtn" class="btn-cancel">Cancelar</button>
+            </div>
         </div>
-      </div>
     </div>
-    <script src="script.js"></script>
     <script>
-      // Simulación de compañeros (incluye al usuario actual)
-      // Puedes reemplazar este array por una consulta a una API o almacenamiento real
-      let companieros = [
-        {
-          nombre: "Santiago CORONEL LANCELLOTTI",
-          correoUni: "santiago.coronellancellotti@usal.edu.ar",
-          carrera: "Ingeniería en Informática",
-          materiasCursa: [
-            "Análisis Matemático I",
-            "Programación I",
-            "Física I",
-          ],
-        },
-      ];
+        // =======================
+        // Variables globales
+        // =======================
+        let companieros = [];
+        const BASE_URL = "http://localhost:8080/api";
 
-      // Reemplazar el array fijo por datos reales
-      async function cargarCompanieros() {
-          try {
-              const response = await fetch('http://localhost:8080/api/alumnos/all');
-              if (!response.ok) throw new Error('Error al cargar compañeros');
-              const companieros = await response.json();
-              
-              // Traducir códigos de carreras
-              const codigosCarreras = [...new Set(companieros.flatMap(a => a.carreras))];
-              const nombresCarreras = await traducirCodigos('carreras', codigosCarreras);
-              
-              // Asignar nombres a cada alumno
-              companieros.forEach(a => {
-                  a.carrera = a.carreras.map(cod => nombresCarreras[cod]).join(', ');
-              });
-              
-              window.companieros = companieros;
-              renderCompanieros(companieros);
-          } catch (error) {
-              console.error(error);
-              document.getElementById('companierosList').innerHTML = '<p>Error al cargar los compañeros</p>';
-          }
-      }
+        // =======================
+        // Funciones de traducción
+        // =======================
+        async function traducirCodigos(tipo, codigos) {
+            if (!codigos || codigos.length === 0) return [];
+            
+            try {
+                const response = await fetch(`${BASE_URL}/alumnos/${tipo}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(codigos)
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Error traduciendo códigos");
+                }
+                
+                return response.json();
+            } catch (error) {
+                console.error("Error en traducción:", error);
+                return codigos;
+            }
+        }
 
-// Llamar a esta función al cargar la página
-carggarCompanieros();
+        // =======================
+        // Cargar compañeros desde el backend
+        // =======================
+        async function cargarCompanieros() {
+            try {
+                // Obtener todos los alumnos
+                const response = await fetch(`${BASE_URL}/alumnos/all`);
+                if (!response.ok) throw new Error('Error al cargar compañeros');
+                let alumnos = await response.json();
+                
+                // Obtener códigos únicos de carreras y materias
+                const codigosCarreras = [...new Set(alumnos.flatMap(a => a.carreras))];
+                const codigosMaterias = [...new Set(alumnos.flatMap(a => [...a.materiasCursa, ...a.materiasAprobadas]))];
+                
+                // Traducir códigos a nombres
+                const [nombresCarreras, nombresMaterias] = await Promise.all([
+                    traducirCodigos('carreras', codigosCarreras),
+                    traducirCodigos('materias', codigosMaterias)
+                ]);
+                
+                // Crear mapeo de códigos a nombres
+                const mapaCarreras = {};
+                codigosCarreras.forEach((cod, i) => mapaCarreras[cod] = nombresCarreras[i]);
+                
+                const mapaMaterias = {};
+                codigosMaterias.forEach((cod, i) => mapaMaterias[cod] = nombresMaterias[i]);
+                
+                // Preparar datos para mostrar
+                companieros = alumnos.map(alumno => ({
+                    ...alumno,
+                    // Traducir carreras
+                    carreras: alumno.carreras.map(cod => mapaCarreras[cod]).join(', '),
+                    // Traducir materias
+                    materiasCursa: alumno.materiasCursa.map(cod => mapaMaterias[cod]),
+                    materiasAprobadas: alumno.materiasAprobadas.map(cod => mapaMaterias[cod])
+                }));
+                
+                renderCompanieros(companieros);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('companierosList').innerHTML = 
+                    `<p class="error">Error al cargar los compañeros: ${error.message}</p>`;
+            }
+        }
 
-      const usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
-      if (
-        usuarioActual.nombre &&
-        !companieros.some((c) => c.dni === usuarioActual.dni)
-      ) {
-        companieros.push(usuarioActual);
-      }
-
-      function renderCompanieros(lista) {
-        const contenedor = document.getElementById("companierosList");
-        contenedor.innerHTML = "";
-        if (lista.length === 0) {
-          contenedor.innerHTML = "<p>No hay compañeros registrados.</p>";
-        } else {
-          lista.forEach((c) => {
-            contenedor.innerHTML += `
+        // =======================
+        // Renderizar compañeros
+        // =======================
+        function renderCompanieros(lista) {
+            const contenedor = document.getElementById("companierosList");
+            contenedor.innerHTML = "";
+            
+            if (lista.length === 0) {
+                contenedor.innerHTML = "<p>No hay compañeros registrados.</p>";
+                return;
+            }
+            
+            lista.forEach(c => {
+                contenedor.innerHTML += `
                     <div class="companiero-card">
                         <h3>${c.nombre || "-"}</h3>
                         <p><strong>Correo:</strong> ${c.correoUni || "-"}</p>
-                        <p><strong>Carrera:</strong> ${c.carrera || "-"}</p>
-                        <p><strong>Materias que cursa:</strong>
-                            <ul>${(c.materiasCursa || [])
-                              .map((m) => `<li>${m}</li>`)
-                              .join("")}</ul>
-                        </p>
+                        <p><strong>Carrera:</strong> ${c.carreras || "-"}</p>
+                        <p><strong>Materias que cursa:</strong></p>
+                        <ul>
+                            ${(c.materiasCursa || []).map(m => `<li>${m}</li>`).join("")}
+                        </ul>
                     </div>
-                    `;
-          });
+                `;
+            });
         }
-      }
 
-      function filtrarCompanieros() {
-        const valor = document
-          .getElementById("buscador")
-          .value.trim()
-          .toLowerCase();
-        if (valor === "") {
-          renderCompanieros(companieros);
-        } else {
-          const filtrados = companieros.filter(
-            (c) => c.nombre && c.nombre.toLowerCase().includes(valor)
-          );
-          renderCompanieros(filtrados);
+        // =======================
+        // Filtrar compañeros
+        // =======================
+        function filtrarCompanieros() {
+            const valor = document.getElementById("buscador").value.trim().toLowerCase();
+            if (!valor) {
+                renderCompanieros(companieros);
+                return;
+            }
+            
+            const filtrados = companieros.filter(c => 
+                c.nombre && c.nombre.toLowerCase().includes(valor)
+            );
+            
+            renderCompanieros(filtrados);
         }
-      }
 
-      // Render inicial
-      renderCompanieros(companieros);
-
-      // Permite buscar al presionar Enter
-      document
-        .getElementById("buscador")
-        .addEventListener("keyup", function (e) {
-          if (e.key === "Enter") filtrarCompanieros();
+        // =======================
+        // Event listeners
+        // =======================
+        document.getElementById("buscador").addEventListener("keyup", function(e) {
+            if (e.key === "Enter") filtrarCompanieros();
         });
 
-      // Lógica para el modal de cierre de sesión
-      const logoutBtn = document.getElementById("logoutBtn");
-      const modal = document.getElementById("confirmModal");
-      const confirmBtn = document.getElementById("confirmBtn");
-      const cancelBtn = document.getElementById("cancelBtn");
-
-      logoutBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        modal.style.display = "flex";
-      });
-
-      cancelBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-      });
-
-      confirmBtn.addEventListener("click", function () {
-        localStorage.removeItem("usuario");
-        window.location.href = "index.html";
-      });
-
-      window.addEventListener("click", function (e) {
-        if (e.target == modal) modal.style.display = "none";
-      });
+        // =======================
+        // Inicialización
+        // =======================
+        cargarCompanieros();
+        
     </script>
-
-  </body>
+</body>
 </html>

@@ -1,304 +1,351 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-      .perfil-box {
-        background: #fff;
-        padding: 25px 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        max-width: 600px;
-        margin: 40px auto;
-      }
-      .perfil-box h2 {
-        text-align: center;
-      }
-      .perfil-datos p {
-        display: flex;
-        align-items: center;
-        margin: 8px 0;
-        margin-bottom: 2rem;
-      }
-      .perfil-datos strong {
-        width: 180px;
-        display: inline-block;
-      }
-      .btn-edit {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 2px;
-        max-width: fit-content;
-        margin: auto;
-        align-items: end;
-      }
-      .btn-edit img {
-        width: 16px;
-        height: 16px;
-      }
-      .btn-eliminar {
-        display: block;
-        margin: 20px auto 0;
-        background-color: #cc0000;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 5px;
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      .btn-eliminar:hover {
-        background-color: #990000;
-      }
-      input.inline-input {
-        padding: 4px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-        max-width: 250px;
-      }
+        .perfil-box {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 40px auto;
+        }
+        .perfil-box h2 {
+            text-align: center;
+        }
+        .perfil-datos p {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            margin-bottom: 2rem;
+        }
+        .perfil-datos strong {
+            width: 180px;
+            display: inline-block;
+        }
+        .btn-edit {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+            max-width: fit-content;
+            margin: auto;
+            align-items: end;
+        }
+        .btn-edit img {
+            width: 16px;
+            height: 16px;
+        }
+        .btn-eliminar {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #cc0000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-eliminar:hover {
+            background-color: #990000;
+        }
+        input.inline-input {
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 250px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: #cc0000;
+            text-align: center;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <nav class="menu">
-      <div class="menu-center">
-        <a href="inicio.html">Inicio</a>
-        <a href="perfil.html" class="active">Perfil</a>
-        <a href="companieros.html">Compañeros</a>
-      </div>
-      <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
+        <div class="menu-center">
+            <a href="inicio.html">Inicio</a>
+            <a href="perfil.html" class="active">Perfil</a>
+            <a href="companieros.html">Compañeros</a>
+        </div>
+        <a href="index.html" id="logoutBtn" class="logout-btn">Cerrar sesión</a>
     </nav>
 
     <div class="perfil-box">
-      <h2>Perfil de Usuario</h2>
-      <div class="perfil-datos" id="datosUsuario"></div>
-      <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
+        <h2>Perfil de Usuario</h2>
+        <div class="perfil-datos" id="datosUsuario">
+            <p class="loading">Cargando datos del perfil...</p>
+        </div>
+        <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
     </div>
 
-    <script src="script.js"></script>
     <script>
-      // =======================
-      // Configuración inicial
-      // =======================
-      const legajoUsuario = localStorage.getItem("legajo");
-      let datos = {};
+        // =======================
+        // Configuración inicial
+        // =======================
+        const BASE_URL = "http://localhost:8080/api";
+        const legajoUsuario = localStorage.getItem("legajo");
+        let datos = {};
+        let codigos = {
+            carreras: [],
+            materiasCursa: [],
+            materiasAprobadas: []
+        };
 
-      // Campos editables (los inmutables no se mostrarán con botón de edición)
-      const camposEditables = [
-        { key: "nombre", label: "Nombre completo" },
-        { key: "dni", label: "DNI" },
-        { key: "fechaNacimiento", label: "Fecha de nacimiento" },
-        { key: "contacto", label: "Datos de contacto" },
-        { key: "correoUni", label: "Correo de la universidad" }
-      ];
-
-      // Campos inmutables o que requieren manejo especial
-      const camposEspeciales = [
-        { key: "legajo", label: "Legajo" },
-        { key: "carreras", label: "Carreras" },
-        { key: "materiasCursa", label: "Materias que cursa" },
-        { key: "materiasAprobadas", label: "Materias aprobadas" }
-      ];
-
-      // =======================
-      // Funciones de traducción
-      // =======================
-      async function traducirCodigos(tipo, codigos) {
-        if (!codigos || codigos.length === 0) return [];
-        
-        try {
-          const response = await fetch(`http://localhost:8080/api/alumnos/${tipo}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(codigos)
-          });
-          
-          if (!response.ok) {
-            throw new Error("Error traduciendo códigos");
-          }
-          
-          return response.json();
-        } catch (error) {
-          console.error("Error en traducción:", error);
-          return codigos; // Devuelve los códigos si falla la traducción
-        }
-      }
-
-      // =======================
-      // Renderizar perfil
-      // =======================
-      async function renderPerfil() {
-        let html = "";
-        
         // Campos editables
-        camposEditables.forEach((campo) => {
-          html += `
-            <p>
-              <strong>${campo.label}:</strong>
-              <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
-              <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
-                <img src="pencil-line.png" alt="Editar">
-              </button>
-            </p>
-          `;
+        const camposEditables = [
+            { key: "nombre", label: "Nombre completo" },
+            { key: "fechaNacimiento", label: "Fecha de nacimiento" },
+            { key: "contacto", label: "Datos de contacto" },
+            { key: "correoUni", label: "Correo de la universidad" }
+        ];
+
+        // Campos inmutables
+        const camposInmutables = [
+            { key: "legajo", label: "Legajo" },
+            { key: "dni", label: "DNI" }
+        ];
+
+        // Campos especiales (materias)
+        const camposEspeciales = [
+            { key: "carreras", label: "Carreras" },
+            { key: "materiasCursa", label: "Materias que cursa" },
+            { key: "materiasAprobadas", label: "Materias aprobadas" }
+        ];
+
+        // =======================
+        // Funciones de traducción
+        // =======================
+        async function traducirCodigos(tipo, codigos) {
+            if (!codigos || codigos.length === 0) return [];
+            
+            try {
+                const response = await fetch(`${BASE_URL}/alumnos/${tipo}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(codigos)
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Error traduciendo códigos");
+                }
+                
+                return response.json();
+            } catch (error) {
+                console.error("Error en traducción:", error);
+                return codigos;
+            }
+        }
+
+        // =======================
+        // Renderizar perfil
+        // =======================
+        async function renderPerfil() {
+            let html = "";
+            
+            // Campos inmutables
+            camposInmutables.forEach((campo) => {
+                html += `
+                    <p>
+                        <strong>${campo.label}:</strong>
+                        <span>${datos[campo.key] || ""}</span>
+                    </p>
+                `;
+            });
+            
+            // Campos editables
+            camposEditables.forEach((campo) => {
+                html += `
+                    <p>
+                        <strong>${campo.label}:</strong>
+                        <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
+                        <button class="btn-edit" onclick="activarEdicion('${campo.key}')">
+                            <img src="pencil-line.png" alt="Editar">
+                        </button>
+                    </p>
+                `;
+            });
+            
+            // Campos especiales (materias)
+            camposEspeciales.forEach((campo) => {
+                html += `
+                    <p>
+                        <strong>${campo.label}:</strong>
+                        <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
+                        <button class="btn-edit" onclick="editarMaterias('${campo.key}')">
+                            <img src="pencil-line.png" alt="Editar">
+                        </button>
+                    </p>
+                `;
+            });
+            
+            document.getElementById("datosUsuario").innerHTML = html;
+        }
+
+        // =======================
+        // Activar edición en línea
+        // =======================
+        function activarEdicion(campo) {
+            const span = document.getElementById(`valor-${campo}`);
+            const valorActual = datos[campo] || "";
+            span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
+                                onblur="guardarCambio('${campo}', this.value)" 
+                                onkeypress="if(event.key==='Enter'){this.blur();}">`;
+            span.querySelector("input").focus();
+        }
+
+        // =======================
+        // Editar materias
+        // =======================
+        function editarMaterias(campo) {
+            alert(`Para editar ${campo}, por favor contacta al administrador`);
+        }
+
+        // =======================
+        // GET - Obtener datos del usuario
+        // =======================
+        async function obtenerDatosUsuario() {
+            try {
+                const response = await fetch(`${BASE_URL}/alumnos/${legajoUsuario}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Error al obtener datos del usuario");
+                }
+                
+                const rawData = await response.json();
+                
+                // Guardar códigos originales
+                codigos = {
+                    carreras: rawData.carreras || [],
+                    materiasCursa: rawData.materiasCursa || [],
+                    materiasAprobadas: rawData.materiasAprobadas || []
+                };
+                
+                // Traducir códigos a nombres
+                const [nombresCarreras, nombresMateriasCursa, nombresMateriasAprob] = await Promise.all([
+                    traducirCodigos("carreras", codigos.carreras),
+                    traducirCodigos("materias", codigos.materiasCursa),
+                    traducirCodigos("materias", codigos.materiasAprobadas)
+                ]);
+                
+                // Crear objeto con datos traducidos
+                datos = {
+                    ...rawData,
+                    carreras: nombresCarreras.join(", "),
+                    materiasCursa: nombresMateriasCursa.join(", "),
+                    materiasAprobadas: nombresMateriasAprob.join(", ")
+                };
+                
+                renderPerfil();
+            } catch (error) {
+                console.error(error);
+                document.getElementById("datosUsuario").innerHTML = 
+                    `<p class="error">Error al cargar el perfil: ${error.message}</p>`;
+            }
+        }
+
+        // =======================
+        // PUT - Guardar cambios en el backend
+        // =======================
+        async function guardarCambio(campo, nuevoValor) {
+            // Crear objeto con todos los datos necesarios
+            const datosActualizados = {
+                ...datos,
+                [campo]: nuevoValor.trim(),
+                carreras: codigos.carreras,
+                materiasCursa: codigos.materiasCursa,
+                materiasAprobadas: codigos.materiasAprobadas
+            };
+            
+            // Eliminar campos innecesarios
+            delete datosActualizados.legajo;
+            
+            try {
+                const response = await fetch(`${BASE_URL}/alumnos/${legajoUsuario}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(datosActualizados)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Error al actualizar en el servidor");
+                }
+                
+                const data = await response.json();
+                console.log("Perfil actualizado:", data);
+                
+                // Actualizar datos locales
+                datos[campo] = nuevoValor.trim();
+                renderPerfil();
+                
+            } catch (error) {
+                console.error("Error al guardar cambios:", error);
+                alert(`Error al guardar cambios: ${error.message}`);
+            }
+        }
+
+        // =======================
+        // DELETE - Eliminar usuario
+        // =======================
+        document.getElementById("eliminarPerfil").addEventListener("click", async () => {
+            if (!confirm("¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.")) {
+                return;
+            }
+            
+            const contra = prompt("Por favor ingresa tu contraseña para confirmar:");
+            if (!contra) return;
+            
+            try {
+                const loginData = {
+                    legajo: legajoUsuario,
+                    contra: contra
+                };
+                
+                const response = await fetch(`${BASE_URL}/usuarios/delete/${legajoUsuario}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginData)
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) throw new Error("Contraseña incorrecta");
+                    throw new Error("Error al eliminar el perfil");
+                }
+                
+                alert("Tu perfil ha sido eliminado correctamente");
+                localStorage.removeItem("legajo");
+                window.location.href = "index.html";
+                
+            } catch (error) {
+                console.error("Error al eliminar:", error);
+                alert(`Error al eliminar el perfil: ${error.message}`);
+            }
         });
-        
-        // Campos especiales (sin botón de edición)
-        camposEspeciales.forEach((campo) => {
-          let valor = datos[campo.key] || "";
-          
-          // Para arrays, mostramos como lista
-          if (Array.isArray(valor)) {
-            valor = valor.join(", ");
-          }
-          
-          html += `
-            <p>
-              <strong>${campo.label}:</strong>
-              <span id="valor-${campo.key}">${valor}</span>
-            </p>
-          `;
-        });
-        
-        document.getElementById("datosUsuario").innerHTML = html;
-      }
 
-      // =======================
-      // Activar edición en línea
-      // =======================
-      function activarEdicion(campo) {
-        const span = document.getElementById(`valor-${campo}`);
-        const valorActual = datos[campo] || "";
-        span.innerHTML = `<input type="text" class="inline-input" value="${valorActual}" 
-                          onblur="guardarCambio('${campo}', this.value)" 
-                          onkeypress="if(event.key==='Enter'){this.blur();}">`;
-        span.querySelector("input").focus();
-      }
-
-      // =======================
-      // GET - Obtener datos del usuario
-      // =======================
-      async function obtenerDatosUsuario() {
-        try {
-          const response = await fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          });
-          
-          if (!response.ok) {
-            throw new Error("Error al obtener datos del usuario");
-          }
-          
-          datos = await response.json();
-          
-          // Traducir códigos a nombres
-          const [nombresCarreras, nombresMateriasCursa, nombresMateriasAprob] = await Promise.all([
-            traducirCodigos("carreras", datos.carreras || []),
-            traducirCodigos("materias", datos.materiasCursa || []),
-            traducirCodigos("materias", datos.materiasAprobadas || [])
-          ]);
-          
-          // Actualizar datos para mostrar nombres
-          datos.carreras = nombresCarreras;
-          datos.materiasCursa = nombresMateriasCursa;
-          datos.materiasAprobadas = nombresMateriasAprob;
-          
-          renderPerfil();
-        } catch (error) {
-          console.error(error);
-          document.getElementById("datosUsuario").innerHTML = 
-            `<p class="error">Error al cargar el perfil: ${error.message}</p>`;
+        // =======================
+        // Cargar datos al iniciar
+        // =======================
+        if (!legajoUsuario) {
+            document.getElementById("datosUsuario").innerHTML = 
+                `<p class="error">No se encontró información de usuario. Por favor inicia sesión.</p>`;
+        } else {
+            obtenerDatosUsuario();
         }
-      }
-
-      // =======================
-      // PUT - Guardar cambios en el backend
-      // =======================
-      async function guardarCambio(campo, nuevoValor) {
-        // Crear copia de los datos para enviar al backend
-        const datosActualizados = {...datos};
-        datosActualizados[campo] = nuevoValor.trim();
-        
-        // Eliminar campos que no deben enviarse o que el backend no espera
-        delete datosActualizados.carreras;
-        delete datosActualizados.materiasCursa;
-        delete datosActualizados.materiasAprobadas;
-        
-        try {
-          const response = await fetch(`http://localhost:8080/api/alumnos/${legajoUsuario}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(datosActualizados)
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Error al actualizar en el servidor");
-          }
-          
-          const data = await response.json();
-          console.log("Perfil actualizado:", data);
-          
-          // Actualizar datos locales con la respuesta del servidor
-          datos[campo] = nuevoValor.trim();
-          renderPerfil();
-          
-        } catch (error) {
-          console.error("Error al guardar cambios:", error);
-          alert(`Error al guardar cambios: ${error.message}`);
-        }
-      }
-
-      // =======================
-      // DELETE - Eliminar usuario
-      // =======================
-      document.getElementById("eliminarPerfil").addEventListener("click", async () => {
-        if (!confirm("¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer.")) {
-          return;
-        }
-        
-        const contra = prompt("Por favor ingresa tu contraseña para confirmar:");
-        if (!contra) return;
-        
-        try {
-          const loginData = {
-            legajo: legajoUsuario,
-            contra: contra
-          };
-          
-          const response = await fetch(`http://localhost:8080/api/usuarios/delete/${legajoUsuario}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(loginData)
-          });
-          
-          if (!response.ok) {
-            if (response.status === 401) throw new Error("Contraseña incorrecta");
-            throw new Error("Error al eliminar el perfil");
-          }
-          
-          alert("Tu perfil ha sido eliminado correctamente");
-          localStorage.removeItem("legajo");
-          window.location.href = "index.html";
-          
-        } catch (error) {
-          console.error("Error al eliminar:", error);
-          alert(`Error al eliminar el perfil: ${error.message}`);
-        }
-      });
-
-      // =======================
-      // Cargar datos al iniciar
-      // =======================
-      if (!legajoUsuario) {
-        document.getElementById("datosUsuario").innerHTML = 
-          `<p class="error">No se encontró información de usuario. Por favor inicia sesión.</p>`;
-      } else {
-        obtenerDatosUsuario();
-      }
     </script>
-  </body>
+</body>
 </html>

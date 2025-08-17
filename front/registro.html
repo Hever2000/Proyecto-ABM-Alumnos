@@ -15,6 +15,12 @@
             min-width: 220px;
             margin-bottom: 5px;
         }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -39,65 +45,26 @@
             <label for="contacto">Datos de contacto (opcional)</label>
             <input type="text" id="contacto" name="contacto">
 
-
             <fieldset>
                 <legend>Carrera</legend>
-                <div class="materias-list">
-                    <label><input type="checkbox" name="carreras[]" value="Ingenieria en Informatica"> Ingenieria en Informatica </label>
-                    <label><input type="checkbox" name="carreras[]" value="Licenciatura en Sistemas"> Licenciatura en Informatica </label>
+                <div id="carrerasContainer" class="materias-list">
+                    <div class="loading">Cargando carreras...</div>
                 </div>
             </fieldset>
             <br>
 
-
             <fieldset>
                 <legend>Materias que cursa</legend>
-                <div class="materias-list">
-                    <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático I"> Análisis Matemático I</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Análisis Matemático II"> Análisis Matemático II</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Cálculo Numérico"> Cálculo Numérico</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="EDA"> EDA</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Física I"> Física I</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Física II"> Física II</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Administración de Empresas"> Administración de Empresas</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Introducción a la Programación"> Introducción a la Programación</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Programación I"> Programación I</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Programación II"> Programación II</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Química General"> Química General</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Información I"> Sistemas de Información I</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas de Representación"> Sistemas de Representación</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Álgebra I"> Álgebra I</label>
-                    <label><input type="checkbox" name="materiasCursa[]" value="Álgebra II"> Álgebra II</label>
+                <div id="materiasCursaContainer" class="materias-list">
+                    <div class="loading">Cargando materias...</div>
                 </div>
             </fieldset>
             <br>
 
             <fieldset>
                 <legend>Materias aprobadas</legend>
-                <div class="materias-list">
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático I"> Análisis Matemático I</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Análisis Matemático II"> Análisis Matemático II</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Arquitectura de Computadoras"> Arquitectura de Computadoras</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Cálculo Numérico"> Cálculo Numérico</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="EDA"> EDA</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Física I"> Física I</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Física II"> Física II</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Administración de Empresas"> Administración de Empresas</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Introducción a la Programación"> Introducción a la Programación</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Paradigmas de Programación"> Paradigmas de Programación</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Programación I"> Programación I</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Programación II"> Programación II</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Química General"> Química General</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Información I"> Sistemas de Información I</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas de Representación"> Sistemas de Representación</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Sistemas Numéricos"> Sistemas Numéricos</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Teoría de Lenguajes"> Teoría de Lenguajes</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra I"> Álgebra I</label>
-                    <label><input type="checkbox" name="materiasAprobadas[]" value="Álgebra II"> Álgebra II</label>
+                <div id="materiasAprobadasContainer" class="materias-list">
+                    <div class="loading">Cargando materias...</div>
                 </div>
             </fieldset>
             <br>
@@ -106,42 +73,97 @@
         </form>
     </div>
     <script>
-        document.getElementById('perfilForm').onsubmit = function(e) {
-    e.preventDefault();
-    
-    // Recolectar datos
-    const formData = new FormData(this);
-    const datos = {
-        alumno: {
-            nombre: formData.get('nombre'),
-            dni: formData.get('dni'),
-            fechaNacimiento: formData.get('fechaNacimiento'),
-            contacto: formData.get('contacto'),
-            correoUni: formData.get('correoUni'),
-            carreras: formData.getAll('carreras[]'),
-            materiasCursa: formData.getAll('materiasCursa[]'),
-            materiasAprobadas: formData.getAll('materiasAprobadas[]')
-        },
-        contra: formData.get('contraseña')
-    };
+        // Obtener carreras y materias desde el backend
+        async function cargarCarrerasYMatrias() {
+            try {
+                // Obtener todas las carreras
+                const carrerasResponse = await fetch('http://localhost:8080/api/alumnos/all/carreras');
+                if (!carrerasResponse.ok) throw new Error('Error cargando carreras');
+                const carreras = await carrerasResponse.json();
+                
+                // Obtener todas las materias
+                const materiasResponse = await fetch('http://localhost:8080/api/alumnos/all/materias');
+                if (!materiasResponse.ok) throw new Error('Error cargando materias');
+                const materias = await materiasResponse.json();
+                
+                // Renderizar carreras
+                const carrerasContainer = document.getElementById('carrerasContainer');
+                carrerasContainer.innerHTML = '';
+                carreras.forEach(carrera => {
+                    carrerasContainer.innerHTML += `
+                        <label>
+                            <input type="checkbox" name="carreras[]" value="${carrera.codigoCarrera}">
+                            ${carrera.nombreCarrera}
+                        </label>
+                    `;
+                });
+                
+                // Renderizar materias (para ambas secciones)
+                const materiasCursaContainer = document.getElementById('materiasCursaContainer');
+                const materiasAprobadasContainer = document.getElementById('materiasAprobadasContainer');
+                
+                materiasCursaContainer.innerHTML = '';
+                materiasAprobadasContainer.innerHTML = '';
+                
+                materias.forEach(materia => {
+                    const materiaHtml = `
+                        <label>
+                            <input type="checkbox" name="materiasCursa[]" value="${materia.codigoMateria}">
+                            ${materia.nombreMateria}
+                        </label>
+                    `;
+                    materiasCursaContainer.innerHTML += materiaHtml;
+                    materiasAprobadasContainer.innerHTML += materiaHtml;
+                });
+                
+            } catch (error) {
+                console.error(error);
+                document.getElementById('carrerasContainer').innerHTML = `Error: ${error.message}`;
+                document.getElementById('materiasCursaContainer').innerHTML = `Error: ${error.message}`;
+                document.getElementById('materiasAprobadasContainer').innerHTML = `Error: ${error.message}`;
+            }
+        }
 
-    // Enviar al backend
-    fetch('http://localhost:8080/api/usuarios/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-    })
-    .then(response => {
-        if (response.status === 400) throw new Error('Usuario ya existe');
-        return response.json();
-    })
-    .then(data => {
-        localStorage.setItem('legajo', data.alumno.legajo);
-        window.location.href = "perfil.html";
-    })
-    .catch(err => alert('Error: ' + err.message));
-};
+        document.getElementById('perfilForm').onsubmit = function(e) {
+            e.preventDefault();
+            
+            // Recolectar datos
+            const formData = new FormData(this);
+            const datos = {
+                alumno: {
+                    nombre: formData.get('nombre'),
+                    dni: formData.get('dni'),
+                    fechaNacimiento: formData.get('fechaNacimiento'),
+                    contacto: formData.get('contacto'),
+                    correoUni: formData.get('correoUni'),
+                    // Enviar como string separado por comas
+                    carreras: formData.getAll('carreras[]').join(','),
+                    materiasCursa: formData.getAll('materiasCursa[]').join(','),
+                    materiasAprobadas: formData.getAll('materiasAprobadas[]').join(',')
+                },
+                contra: formData.get('contraseña')
+            };
+
+            // Enviar al backend
+            fetch('http://localhost:8080/api/usuarios/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            })
+            .then(response => {
+                if (response.status === 400) throw new Error('Usuario ya existe');
+                if (!response.ok) throw new Error('Error en el registro');
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem('legajo', data.alumno.legajo);
+                window.location.href = "perfil.html";
+            })
+            .catch(err => alert('Error: ' + err.message));
+        };
+
+        // Cargar carreras y materias al iniciar
+        cargarCarrerasYMatrias();
     </script>
 </body>
 </html>
-
