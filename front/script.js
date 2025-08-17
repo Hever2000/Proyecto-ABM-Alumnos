@@ -17,6 +17,7 @@ loginForm.onsubmit = function(e) {
         if (response.status === 401) throw new Error('Credenciales inválidas');
         if (response.status === 404) throw new Error('Usuario no encontrado');
         if (!response.ok) throw new Error('Error en el servidor');
+        return response.json();
     })
     .then(data => {
         localStorage.setItem('legajo', legajo);
@@ -26,7 +27,9 @@ loginForm.onsubmit = function(e) {
 };
 
 // Logout
-logoutBtn.onclick = () => {
-    localStorage.removeItem('legajo');
-    window.location.href = "index.html";
-};
+if (logoutBtn) {
+    logoutBtn.onclick = () => {
+        localStorage.removeItem('legajo');
+        window.location.href = "index.html";
+    };
+}

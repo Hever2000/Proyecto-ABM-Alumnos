@@ -124,15 +124,17 @@
         // =======================
         // Funciones de traducción
         // =======================
-        async function traducirCodigos(tipo, codigos) {
-            if (!codigos || codigos.length === 0) return [];
+        async function traducirCodigos(tipo, codigosStr) {
+            if (!codigosStr) return [];
+            const codigos = codigosStr.split(',');
+            if (codigos.length === 0) return [];
             
             try {
-                const response = await fetch(`${BASE_URL}/alumnos/${tipo}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(codigos)
-                });
+                const codigosParam = codigos.join(',');
+                const response = await fetch(
+                    `${BASE_URL}/translate/${tipo}?codigos=${codigosParam}`, 
+                    { method: "GET" }
+                );
                 
                 if (!response.ok) {
                     throw new Error("Error traduciendo códigos");
@@ -151,40 +153,28 @@
         async function cargarCompanieros() {
             try {
                 // Obtener todos los alumnos
-                const response = await fetch(`${BASE_URL}/alumnos/all`, { 
-                  method: "GET", 
-                  headers: { "Content-Type": "application/json" }
-                });
+                const response = await fetch(`${BASE_URL}/alumnos/all`);
                 if (!response.ok) throw new Error('Error al cargar compañeros');
-                let alumnos = await response.json();
+                const alumnos = await response.json();
                 
-                // Obtener códigos únicos de carreras y materias
-                const codigosCarreras = [...new Set(alumnos.flatMap(a => a.carreras))];
-                const codigosMaterias = [...new Set(alumnos.flatMap(a => [...a.materiasCursa, ...a.materiasAprobadas]))];
-                
-                // Traducir códigos a nombres
-                const [nombresCarreras, nombresMaterias] = await Promise.all([
-                    traducirCodigos('carreras', codigosCarreras),
-                    traducirCodigos('materias', codigosMaterias)
-                ]);
-                
-                // Crear mapeo de códigos a nombres
-                const mapaCarreras = {};
-                codigosCarreras.forEach((cod, i) => mapaCarreras[cod] = nombresCarreras[i]);
-                
-                const mapaMaterias = {};
-                codigosMaterias.forEach((cod, i) => mapaMaterias[cod] = nombresMaterias[i]);
-                
-                // Preparar datos para mostrar
-                companieros = alumnos.map(alumno => ({
-                    ...alumno,
+                // Procesar cada alumno para traducir códigos a nombres
+                for (let alumno of alumnos) {
                     // Traducir carreras
-                    carreras: alumno.carreras.map(cod => mapaCarreras[cod]).join(', '),
-                    // Traducir materias
-                    materiasCursa: alumno.materiasCursa.map(cod => mapaMaterias[cod]),
-                    materiasAprobadas: alumno.materiasAprobadas.map(cod => mapaMaterias[cod])
-                }));
+                    if (alumno.carreras) {
+                        alumno.carrerasNombres = await traducirCodigos("carreras", alumno.carreras);
+                    } else {
+                        alumno.carrerasNombres = [];
+                    }
+                    
+                    // Traducir materias que cursa
+                    if (alumno.materiasCursa) {
+                        alumno.materiasCursaNombres = await traducirCodigos("materias", alumno.materiasCursa);
+                    } else {
+                        alumno.materiasCursaNombres = [];
+                    }
+                }
                 
+                companieros = alumnos;
                 renderCompanieros(companieros);
             } catch (error) {
                 console.error(error);
@@ -210,10 +200,10 @@
                     <div class="companiero-card">
                         <h3>${c.nombre || "-"}</h3>
                         <p><strong>Correo:</strong> ${c.correoUni || "-"}</p>
-                        <p><strong>Carrera:</strong> ${c.carreras || "-"}</p>
+                        <p><strong>Carrera:</strong> ${c.carrerasNombres?.join(', ') || '-'}</p>
                         <p><strong>Materias que cursa:</strong></p>
                         <ul>
-                            ${(c.materiasCursa || []).map(m => `<li>${m}</li>`).join("")}
+                            ${c.materiasCursaNombres?.map(m => `<li>${m}</li>`).join('') || ''}
                         </ul>
                     </div>
                 `;
@@ -248,7 +238,6 @@
         // Inicialización
         // =======================
         cargarCompanieros();
-
     </script>
 </body>
 </html>

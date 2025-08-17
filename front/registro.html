@@ -77,12 +77,12 @@
         async function cargarCarrerasYMatrias() {
             try {
                 // Obtener todas las carreras
-                const carrerasResponse = await fetch('http://localhost:8080/api/alumnos/all/carreras');
+                const carrerasResponse = await fetch('http://localhost:8080/api/translate/all/carreras');
                 if (!carrerasResponse.ok) throw new Error('Error cargando carreras');
                 const carreras = await carrerasResponse.json();
                 
                 // Obtener todas las materias
-                const materiasResponse = await fetch('http://localhost:8080/api/alumnos/all/materias');
+                const materiasResponse = await fetch('http://localhost:8080/api/translate/all/materias');
                 if (!materiasResponse.ok) throw new Error('Error cargando materias');
                 const materias = await materiasResponse.json();
                 
