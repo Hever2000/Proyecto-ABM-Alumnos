@@ -24,9 +24,11 @@ public class Alumno {
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(nullable = false)
     private Date fechaNacimiento;
-    @Column(nullable = false)
+    // Opcional, puede ser null
+    @Column(nullable = true)
     private String direccion;
     // Opcional, puede ser null
+    @Column(nullable = true)
     private String contacto;
     @Column(nullable = false)
     private String correoUni;
