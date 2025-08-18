@@ -56,7 +56,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public void iniciarSesion(@RequestBody LoginDataWrapper loginData){
+    public boolean iniciarSesion(@RequestBody LoginDataWrapper loginData){
         Usuario usr = usuarioRepository.findById(loginData.getLegajo()).orElse(null);
 
         if(usr == null)
@@ -71,6 +71,7 @@ public class UsuarioController {
         }
         
         // Retorna 200 OK
+        return usr.getEsAdmin();
     }
 
     @DeleteMapping("/delete")
