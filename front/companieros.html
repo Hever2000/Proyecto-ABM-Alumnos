@@ -139,7 +139,6 @@
                 if (!response.ok) {
                     throw new Error("Error traduciendo códigos");
                 }
-                
                 return response.json();
             } catch (error) {
                 console.error("Error en traducción:", error);

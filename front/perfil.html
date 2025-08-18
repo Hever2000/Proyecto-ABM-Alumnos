@@ -70,6 +70,71 @@
             color: #cc0000;
             text-align: center;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .modal-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .modal-option {
+            flex: 1 0 200px;
+        }
+        .modal-option label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border: none;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -90,6 +155,21 @@
         <button class="btn-eliminar" id="eliminarPerfil">Eliminar Perfil</button>
     </div>
 
+    <!-- Modal para editar materias y carreras -->
+    <div id="modalEdicion" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Editar</h3>
+                <button class="modal-close" id="modalCerrar">&times;</button>
+            </div>
+            <div id="modalOpciones" class="modal-options"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="modalCancelar">Cancelar</button>
+                <button class="btn btn-primary" id="modalGuardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // =======================
         // Configuración inicial
@@ -102,6 +182,11 @@
             materiasCursa: [],
             materiasAprobadas: []
         };
+        let opcionesDisponibles = {
+            carreras: [],
+            materias: []
+        };
+        let campoEditando = null;
 
         // Campos editables
         const camposEditables = [
@@ -123,6 +208,14 @@
             { key: "materiasCursa", label: "Materias que cursa" },
             { key: "materiasAprobadas", label: "Materias aprobadas" }
         ];
+
+        // Elementos del modal
+        const modal = document.getElementById('modalEdicion');
+        const modalTitulo = document.getElementById('modalTitulo');
+        const modalOpciones = document.getElementById('modalOpciones');
+        const modalGuardar = document.getElementById('modalGuardar');
+        const modalCancelar = document.getElementById('modalCancelar');
+        const modalCerrar = document.getElementById('modalCerrar');
 
         // =======================
         // Funciones de traducción
@@ -146,6 +239,26 @@
             } catch (error) {
                 console.error("Error en traducción:", error);
                 return codigos;
+            }
+        }
+
+        // =======================
+        // Cargar opciones disponibles
+        // =======================
+        async function cargarOpcionesDisponibles() {
+            try {
+                // Cargar carreras
+                const carrerasResponse = await fetch(`${BASE_URL}/translate/all/carreras`);
+                if (!carrerasResponse.ok) throw new Error('Error cargando carreras');
+                opcionesDisponibles.carreras = await carrerasResponse.json();
+                
+                // Cargar materias
+                const materiasResponse = await fetch(`${BASE_URL}/translate/all/materias`);
+                if (!materiasResponse.ok) throw new Error('Error cargando materias');
+                opcionesDisponibles.materias = await materiasResponse.json();
+                
+            } catch (error) {
+                console.error("Error cargando opciones:", error);
             }
         }
 
@@ -184,7 +297,7 @@
                     <p>
                         <strong>${campo.label}:</strong>
                         <span id="valor-${campo.key}">${datos[campo.key] || ""}</span>
-                        <button class="btn-edit" onclick="editarMaterias('${campo.key}')">
+                        <button class="btn-edit" onclick="editarEspecial('${campo.key}')">
                             <img src="pencil-line.png" alt="Editar">
                         </button>
                     </p>
@@ -205,7 +318,70 @@
                                 onkeypress="if(event.key==='Enter'){this.blur();}">`;
             span.querySelector("input").focus();
         }
-        
+
+        // =======================
+        // Editar campos especiales
+        // =======================
+        function editarEspecial(campo) {
+            campoEditando = campo;
+            modalTitulo.textContent = `Editar ${campo}`;
+            
+            // Determinar tipo de opciones (carreras o materias)
+            const tipo = campo === 'carreras' ? 'carreras' : 'materias';
+            const opciones = tipo === 'carreras' ? 
+                opcionesDisponibles.carreras : 
+                opcionesDisponibles.materias;
+            
+            // Obtener códigos seleccionados actualmente
+            const seleccionados = codigos[campo] || [];
+            
+            // Construir opciones
+            modalOpciones.innerHTML = '';
+            opciones.forEach(opcion => {
+                const codigo = tipo === 'carreras' ? opcion.codigoCarrera : opcion.codigoMateria;
+                const nombre = tipo === 'carreras' ? opcion.nombreCarrera : opcion.nombreMateria;
+                
+                const div = document.createElement('div');
+                div.className = 'modal-option';
+                div.innerHTML = `
+                    <label>
+                        <input type="checkbox" value="${codigo}" 
+                            ${seleccionados.includes(codigo) ? 'checked' : ''}>
+                        ${nombre}
+                    </label>
+                `;
+                modalOpciones.appendChild(div);
+            });
+            
+            modal.style.display = 'block';
+        }
+
+        // =======================
+        // Guardar edición especial
+        // =======================
+        function guardarEdicionEspecial() {
+            const checkboxes = modalOpciones.querySelectorAll('input[type="checkbox"]');
+            const seleccionados = [];
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    seleccionados.push(checkbox.value);
+                }
+            });
+            
+            // Actualizar códigos
+            codigos[campoEditando] = seleccionados;
+            
+            // Traducir códigos a nombres para mostrar
+            traducirCodigos(campoEditando === 'carreras' ? 'carreras' : 'materias', seleccionados.join(','))
+                .then(nombres => {
+                    datos[campoEditando] = nombres.join(", ");
+                    renderPerfil();
+                });
+            
+            modal.style.display = 'none';
+        }
+
         // =======================
         // GET - Obtener datos del usuario
         // =======================
@@ -258,14 +434,13 @@
             const datosActualizados = {
                 ...datos,
                 [campo]: nuevoValor.trim(),
+                // Incluir el legajo (requerido por el backend)
+                legajo: legajoUsuario,
                 // Enviar los códigos como strings separados por comas
                 carreras: codigos.carreras.join(','),
                 materiasCursa: codigos.materiasCursa.join(','),
                 materiasAprobadas: codigos.materiasAprobadas.join(',')
             };
-            
-            // Eliminar campos innecesarios
-            delete datosActualizados.legajo;
             
             try {
                 const response = await fetch(`${BASE_URL}/alumnos/${legajoUsuario}`, {
@@ -337,8 +512,24 @@
             document.getElementById("datosUsuario").innerHTML = 
                 `<p class="error">No se encontró información de usuario. Por favor inicia sesión.</p>`;
         } else {
-            obtenerDatosUsuario();
+            // Cargar opciones disponibles primero
+            cargarOpcionesDisponibles().then(() => {
+                obtenerDatosUsuario();
+            });
         }
+
+        // =======================
+        // Eventos del modal
+        // =======================
+        modalGuardar.addEventListener('click', guardarEdicionEspecial);
+        modalCancelar.addEventListener('click', () => modal.style.display = 'none');
+        modalCerrar.addEventListener('click', () => modal.style.display = 'none');
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
