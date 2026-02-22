@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Compañeros</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="config.js"></script>
     <style>
         .companieros-container {
             max-width: 900px;
@@ -119,7 +120,6 @@
         // Variables globales
         // =======================
         let companieros = [];
-        const BASE_URL = "http://localhost:8080/api";
 
         // =======================
         // Funciones de traducción
@@ -131,10 +131,9 @@
             
             try {
                 const codigosParam = codigos.join(',');
-                const response = await fetch(
-                    `${BASE_URL}/translate/${tipo}?codigos=${codigosParam}`, 
-                    { method: "GET" }
-                );
+                const response = await fetch(getApiUrl(`/translate/${tipo}?codigos=${codigosParam}`), {
+                    method: "GET"
+                });
                 
                 if (!response.ok) {
                     throw new Error("Error traduciendo códigos");
@@ -152,7 +151,7 @@
         async function cargarCompanieros() {
             try {
                 // Obtener todos los alumnos
-                const response = await fetch(`${BASE_URL}/alumnos/all`);
+                const response = await fetch(getApiUrl("/alumnos/all"));
                 if (!response.ok) throw new Error('Error al cargar compañeros');
                 const alumnos = await response.json();
                 

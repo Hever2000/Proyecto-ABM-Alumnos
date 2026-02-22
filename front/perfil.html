@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="config.js"></script>
     <style>
         .perfil-box {
             background: #fff;
@@ -174,7 +175,6 @@
         // =======================
         // Configuración inicial
         // =======================
-        const BASE_URL = "http://localhost:8080/api";
         const legajoUsuario = localStorage.getItem("legajo");
         let datos = {};
         let codigos = {
@@ -227,7 +227,7 @@
             
             try {
                 const codigosParam = codigos.join(',');
-                const response = await fetch(`${BASE_URL}/translate/${tipo}?codigos=${codigosParam}`, {
+                const response = await fetch(getApiUrl(`/translate/${tipo}?codigos=${codigosParam}`), {
                     method: "GET"
                 });
                 
@@ -248,12 +248,12 @@
         async function cargarOpcionesDisponibles() {
             try {
                 // Cargar carreras
-                const carrerasResponse = await fetch(`${BASE_URL}/translate/all/carreras`);
+                const carrerasResponse = await fetch(getApiUrl("/translate/all/carreras"));
                 if (!carrerasResponse.ok) throw new Error('Error cargando carreras');
                 opcionesDisponibles.carreras = await carrerasResponse.json();
                 
                 // Cargar materias
-                const materiasResponse = await fetch(`${BASE_URL}/translate/all/materias`);
+                const materiasResponse = await fetch(getApiUrl("/translate/all/materias"));
                 if (!materiasResponse.ok) throw new Error('Error cargando materias');
                 opcionesDisponibles.materias = await materiasResponse.json();
                 
@@ -387,7 +387,7 @@
         // =======================
         async function obtenerDatosUsuario() {
             try {
-                const response = await fetch(`${BASE_URL}/alumnos/${legajoUsuario}`, {
+                const response = await fetch(getApiUrl(`/alumnos/${legajoUsuario}`), {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });
@@ -443,7 +443,7 @@
             };
             
             try {
-                const response = await fetch(`${BASE_URL}/alumnos/${legajoUsuario}`, {
+                const response = await fetch(getApiUrl(`/alumnos/${legajoUsuario}`), {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(datosActualizados)
@@ -484,7 +484,7 @@
                     contra: contra
                 };
                 
-                const response = await fetch(`${BASE_URL}/usuarios/delete/${legajoUsuario}`, {
+                const response = await fetch(getApiUrl(`/usuarios/delete/${legajoUsuario}`), {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(loginData)

@@ -20,7 +20,7 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @PostMapping("/register")
-    public void agregarUsuario(@RequestBody RegisterWrapper rw) {
+    public Integer agregarUsuario(@RequestBody RegisterWrapper rw) {
         // Tira 400 si ya existe (x dni)
         Integer legajo = AlumnoController.getInstance().agregarAlumno(rw.getAlumno());
 
@@ -28,7 +28,8 @@ public class UsuarioController {
         Usuario usr = new Usuario(legajo, rw.getContra());
         usuarioRepository.save(usr);
         
-        // Retorna 200 OK
+        // Retorna 200 OK con el legajo generado
+        return legajo;
     }
 
     @PutMapping("/changePass")
@@ -108,7 +109,7 @@ public class UsuarioController {
                 String.format("El admin %d no fue encontrado", loginData.getLegajo())
             );
 
-        if (!admUsr.tryPassword(loginData.getContra()) || admUsr.getEsAdmin()) {
+        if (!admUsr.tryPassword(loginData.getContra()) || !admUsr.getEsAdmin()) {
             // Retorna 401 UNAUTHORIZED
             throw new WrongPasswordException();
         }

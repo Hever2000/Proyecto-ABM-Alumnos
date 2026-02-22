@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Completar Perfil</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
     <style>
         .materias-list {
             display: flex;
@@ -77,12 +78,12 @@
         async function cargarCarrerasYMatrias() {
             try {
                 // Obtener todas las carreras
-                const carrerasResponse = await fetch('http://localhost:8080/api/translate/all/carreras');
+                const carrerasResponse = await fetch(getApiUrl('/translate/all/carreras'));
                 if (!carrerasResponse.ok) throw new Error('Error cargando carreras');
                 const carreras = await carrerasResponse.json();
                 
                 // Obtener todas las materias
-                const materiasResponse = await fetch('http://localhost:8080/api/translate/all/materias');
+                const materiasResponse = await fetch(getApiUrl('/translate/all/materias'));
                 if (!materiasResponse.ok) throw new Error('Error cargando materias');
                 const materias = await materiasResponse.json();
                 
@@ -145,7 +146,7 @@
             };
 
             // Enviar al backend
-            fetch('http://localhost:8080/api/usuarios/register', {
+            fetch(getApiUrl('/usuarios/register'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
@@ -153,9 +154,10 @@
             .then(response => {
                 if (response.status === 400) throw new Error('Usuario ya existe');
                 if (!response.ok) throw new Error('Error en el registro');
+                return response.json();
             })
-            .then(data => {
-                localStorage.setItem('legajo', data.alumno.legajo);
+            .then(legajo => {
+                localStorage.setItem('legajo', String(legajo));
                 window.location.href = "perfil.html";
             })
             .catch(err => alert('Error: ' + err.message));
